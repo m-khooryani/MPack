@@ -51,7 +51,7 @@ namespace MPack
                                 bytes.Add(0);
                                 continue;
                             }
-                            var bytessss = Serialize2(x);
+                            var bytessss = Serialize2(x, propertyInfo);
                             bytes.AddRange(bytessss);
                         }
                     }
@@ -80,7 +80,7 @@ namespace MPack
             }
         }
 
-        private static byte[] Serialize2(object x)
+        private static byte[] Serialize2(object x, PropertyInfo propertyInfo = null)
         {
             var propertyType = x.GetType();
             bool isSimple = IsSimple(propertyType);
@@ -131,24 +131,46 @@ namespace MPack
             else if (propertyType.IsArray)
             {
                 var array = (Array)x;
-                byte[] byteArray = GetByteArrayFromPrimitiveObject2(array.Length, typeof(int));
+                int n = int.MaxValue;
+                var nItemsAttribute = propertyInfo.GetCustomAttributes(typeof(NFirstItemsAttribute));
+                if (nItemsAttribute != null)
+                {
+                    n = ((NFirstItemsAttribute)nItemsAttribute.First()).N;
+                }
+                byte[] byteArray = GetByteArrayFromPrimitiveObject2(Math.Min(array.Length, n), typeof(int));
                 bytes.AddRange(byteArray);
+                int count = 0;
                 foreach (var item in array)
                 {
+                    if(count == n)
+                    {
+                        break;
+                    }
                     var bytesss = Serialize2(item);
                     bytes.AddRange(bytesss);
+                    count++;
                 }
             }
             else if (propertyType.IsNonStringEnumerable())
             {
                 var enumer = (IEnumerable)x;
+                int n = int.MaxValue;
+                var nItemsAttribute = propertyInfo.GetCustomAttributes(typeof(NFirstItemsAttribute));
+                if (nItemsAttribute != null)
+                {
+                    n = ((NFirstItemsAttribute)nItemsAttribute.First()).N;
+                }
                 List<byte> tempList = new List<byte>();
                 int count = 0;
                 foreach (var item in enumer)
                 {
-                    count++;
+                    if(count == n)
+                    {
+                        break;
+                    }
                     var bytesss = Serialize2(item);
                     tempList.AddRange(bytesss);
+                    count++;
                 }
                 byte[] byteArray = GetByteArrayFromPrimitiveObject2(count, typeof(int));
                 bytes.AddRange(byteArray);
