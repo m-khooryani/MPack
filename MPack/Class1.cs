@@ -4,5 +4,6 @@ namespace MPack
 {
     public class Class1
     {
+
     }
 }
