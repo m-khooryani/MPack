@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29025.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPack", "MPack\MPack.csproj", "{F28667F7-2F93-457A-9C1F-241C609DF18A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F28667F7-2F93-457A-9C1F-241C609DF18A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F28667F7-2F93-457A-9C1F-241C609DF18A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F28667F7-2F93-457A-9C1F-241C609DF18A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F28667F7-2F93-457A-9C1F-241C609DF18A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AB699F1D-179E-48CC-A026-A16E954C257A}
+	EndGlobalSection
+EndGlobal
