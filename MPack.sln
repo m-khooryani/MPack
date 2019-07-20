@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MPack", "MPack\MPack.csproj", "{F28667F7-2F93-457A-9C1F-241C609DF18A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest", "ConsoleTest\ConsoleTest.csproj", "{45CF3231-1209-4E16-8975-2A95608D5DC6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTest", "ConsoleTest\ConsoleTest.csproj", "{45CF3231-1209-4E16-8975-2A95608D5DC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MPack.Tests", "MPack.Tests\MPack.Tests.csproj", "{2E259223-0439-4FF9-9FFD-BA2CBC83FA74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{45CF3231-1209-4E16-8975-2A95608D5DC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45CF3231-1209-4E16-8975-2A95608D5DC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45CF3231-1209-4E16-8975-2A95608D5DC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E259223-0439-4FF9-9FFD-BA2CBC83FA74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E259223-0439-4FF9-9FFD-BA2CBC83FA74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E259223-0439-4FF9-9FFD-BA2CBC83FA74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E259223-0439-4FF9-9FFD-BA2CBC83FA74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

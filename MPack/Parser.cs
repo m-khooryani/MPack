@@ -19,6 +19,13 @@ namespace MPack
             return item1;
         }
 
+        public static object Deserialize(byte[] serializedBytes, Type type)
+        {
+            object instance = (object)Activator.CreateInstance(type);
+            var deserializedObject = DeserilizeObject(serializedBytes, 0, instance).Item1;
+            return deserializedObject;
+        }
+
         public static byte[] Serialize(object objjj)
         {
             var type = objjj.GetType();
@@ -133,7 +140,7 @@ namespace MPack
                 var array = (Array)x;
                 int n = int.MaxValue;
                 var nItemsAttribute = propertyInfo.GetCustomAttributes(typeof(NFirstItemsAttribute));
-                if (nItemsAttribute != null)
+                if (nItemsAttribute != null && nItemsAttribute.Count() != 0)
                 {
                     n = ((NFirstItemsAttribute)nItemsAttribute.First()).N;
                 }
@@ -142,7 +149,7 @@ namespace MPack
                 int count = 0;
                 foreach (var item in array)
                 {
-                    if(count == n)
+                    if (count == n)
                     {
                         break;
                     }
@@ -156,7 +163,7 @@ namespace MPack
                 var enumer = (IEnumerable)x;
                 int n = int.MaxValue;
                 var nItemsAttribute = propertyInfo.GetCustomAttributes(typeof(NFirstItemsAttribute));
-                if (nItemsAttribute != null)
+                if (nItemsAttribute != null && nItemsAttribute.Count() != 0)
                 {
                     n = ((NFirstItemsAttribute)nItemsAttribute.First()).N;
                 }
@@ -164,7 +171,7 @@ namespace MPack
                 int count = 0;
                 foreach (var item in enumer)
                 {
-                    if(count == n)
+                    if (count == n)
                     {
                         break;
                     }

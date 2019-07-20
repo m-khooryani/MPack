@@ -14,7 +14,8 @@ namespace ConsoleTest
                 List = new List<int>() { 1000, 2000, 3000, 4000, 5000 }
             };
             var serializedBytes = Parser.Serialize(a);
-            var deserilized = Parser.Deserialize<A>(serializedBytes);
+            //var deserilized = Parser.Deserialize<A>(serializedBytes);
+            var deserilized = Parser.Deserialize(serializedBytes, a.GetType());
         }
     }
 
