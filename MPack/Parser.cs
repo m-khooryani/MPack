@@ -110,8 +110,8 @@ namespace MPack
             {
                 object kvpKey = propertyType.GetProperty("Key").GetValue(x, null);
                 object kvpValue = propertyType.GetProperty("Value").GetValue(x, null);
-                var keyByteArray = Serialize2(kvpKey);
-                var valueByteArray = Serialize2(kvpValue);
+                var keyByteArray = (kvpKey != null)? Serialize2(kvpKey) : new byte[0];
+                var valueByteArray = (kvpValue != null) ? Serialize2(kvpValue) : new byte[0];
                 var keyLengthByteArray = GetByteArrayFromPrimitiveObject2(keyByteArray.Length, typeof(int));
                 var valueLengthByteArray = GetByteArrayFromPrimitiveObject2(valueByteArray.Length, typeof(int));
                 byte[] byteArray2 = GetByteArrayFromPrimitiveObject2(keyByteArray.Length + valueByteArray.Length + keyLengthByteArray.Length + valueLengthByteArray.Length, typeof(int));
@@ -139,7 +139,7 @@ namespace MPack
             {
                 var array = (Array)x;
                 int n = int.MaxValue;
-                var nItemsAttribute = propertyInfo.GetCustomAttributes(typeof(NFirstItemsAttribute));
+                var nItemsAttribute = propertyInfo?.GetCustomAttributes(typeof(NFirstItemsAttribute)) ?? null;
                 if (nItemsAttribute != null && nItemsAttribute.Count() != 0)
                 {
                     n = ((NFirstItemsAttribute)nItemsAttribute.First()).N;
@@ -391,7 +391,7 @@ namespace MPack
                 arrayLength2 = (int)GetObjectFromByteArray2(bytes, typeof(int));
                 Type keyType = propertyType.GetGenericArguments()[0];
                 var ff = FunctionProvider(keyType);
-                var key = ff(input, index, keyType).Item1;
+                var key = arrayLength2 > 0 ? ff(input, index, keyType).Item1 : null;
 
                 index += arrayLength2;
                 length = GetLength(input, index);
@@ -400,7 +400,7 @@ namespace MPack
                 arrayLength2 = (int)GetObjectFromByteArray2(bytes, typeof(int));
                 Type valueType = propertyType.GetGenericArguments()[1];
                 ff = FunctionProvider(valueType);
-                var val = ff(input, index, valueType).Item1;
+                var val = arrayLength2 > 0 ? ff(input, index, valueType).Item1 : null;
                 var keyValuePair = Activator.CreateInstance(propertyType, new[] { key, val });
                 index += arrayLength2;
                 kjhk = new Tuple<object, int>(keyValuePair, index);
@@ -624,7 +624,7 @@ namespace MPack
             else if (type.Equals(typeof(int)))
             {
                 int n = (int)x;
-                var binary = Convert.ToString((uint)Math.Abs(n), 2);
+                var binary = Convert.ToString(Math.Abs((long)n), 2);
                 byte[] bytes = GetBytes(binary, Math.Sign(n));
                 return bytes;
             }

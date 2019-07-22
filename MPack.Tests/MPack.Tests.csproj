@@ -7,13 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ExpectedObjects" Version="2.3.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MPack\MPack.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="DeepEqual">
+      <HintPath>..\..\..\DeepEqual\src\DeepEqual\bin\Debug\netstandard2.0\DeepEqual.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

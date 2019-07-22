@@ -16,6 +16,7 @@ namespace ConsoleTest
             var serializedBytes = Parser.Serialize(a);
             //var deserilized = Parser.Deserialize<A>(serializedBytes);
             var deserilized = Parser.Deserialize(serializedBytes, a.GetType());
+            //Dictionary
         }
     }
 
