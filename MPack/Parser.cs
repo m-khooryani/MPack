@@ -21,7 +21,7 @@ namespace MPack
 
         public static object Deserialize(byte[] serializedBytes, Type type)
         {
-            object instance = (object)Activator.CreateInstance(type);
+            object instance = Activator.CreateInstance(type);
             var deserializedObject = DeserilizeObject(serializedBytes, 0, instance).Item1;
             return deserializedObject;
         }
@@ -52,12 +52,11 @@ namespace MPack
                         {
                             var x = propertyInfo.GetValue(objjj);
                             byte tag = myAttribute.Tag;
-                            bytes.Add(tag);
                             if (x == null)
                             {
-                                bytes.Add(0);
                                 continue;
                             }
+                            bytes.Add(tag);
                             var bytessss = Serialize2(x, propertyInfo);
                             bytes.AddRange(bytessss);
                         }
@@ -485,15 +484,11 @@ namespace MPack
             var bytes = input.Skip(index).Take(length).ToArray();
             index += length;
             int arrayLength2 = (int)GetObjectFromByteArray2(bytes, typeof(int));
-            Tuple<object, int> kjkj = new Tuple<object, int>(null, index);
-            if (arrayLength2 > 0)
-            {
-                kjkj = ReadEnumerable(input, arrayLength2, index, propertyType, GetCollectionElementType(propertyType));
-                var list23 = kjkj.Item1;
-                object underlyingList = list23 is IWrappedCollection wrappedCollection ? wrappedCollection.UnderlyingCollection : list23;
-                index = kjkj.Item2;
-                kjkj = new Tuple<object, int>(underlyingList, index);
-            }
+            Tuple<object, int> kjkj = ReadEnumerable(input, arrayLength2, index, propertyType, GetCollectionElementType(propertyType));
+            var list23 = kjkj.Item1;
+            object underlyingList = list23 is IWrappedCollection wrappedCollection ? wrappedCollection.UnderlyingCollection : list23;
+            index = kjkj.Item2;
+            kjkj = new Tuple<object, int>(underlyingList, index);
             return kjkj;
         }
 
@@ -503,15 +498,11 @@ namespace MPack
             var bytes = input.Skip(index).Take(length).ToArray();
             index += length;
             int arrayLength2 = (int)GetObjectFromByteArray2(bytes, typeof(int));
-            Tuple<object, int> kjkj = new Tuple<object, int>(null, index);
-            if (arrayLength2 > 0)
-            {
-                kjkj = ReadArray(input, arrayLength2, index, GetArrayElementType(propertyType));
-                var list23 = kjkj.Item1;
-                object underlyingList = list23 is IWrappedCollection wrappedCollection ? wrappedCollection.UnderlyingCollection : list23;
-                index = kjkj.Item2;
-                kjkj = new Tuple<object, int>(underlyingList, index);
-            }
+            Tuple<object, int> kjkj = ReadArray(input, arrayLength2, index, GetArrayElementType(propertyType));
+            var list23 = kjkj.Item1;
+            object underlyingList = list23 is IWrappedCollection wrappedCollection ? wrappedCollection.UnderlyingCollection : list23;
+            index = kjkj.Item2;
+            kjkj = new Tuple<object, int>(underlyingList, index);
             return kjkj;
         }
 

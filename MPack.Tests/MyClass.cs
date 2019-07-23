@@ -39,6 +39,12 @@ namespace MPack.Tests
         public List<MyClass2> SampleComplexList { get; set; }
     }
 
+    public class My
+    {
+        [Tag(0)]
+        public int[] A { get; set; }
+    }
+
     public enum Days
     { 
         Day1,

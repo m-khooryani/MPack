@@ -8,25 +8,35 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            A a = new A()
+
+            LoginRequestDto loginRequestDto = new LoginRequestDto()
             {
-                B = new int[] { 1, 2, 3, 4, 5 },
-                List = new List<int>() { 1000, 2000, 3000, 4000, 5000 }
+                MessageType = 1,
+                DeviceMessageNumber = 1000,
+                Date = new DateTime(2002, 6, 30),
+                DeviceMobileNumber = "989191740647",
+                Username = "legalTest1",
+                Password = "123456",
             };
-            var serializedBytes = Parser.Serialize(a);
-            //var deserilized = Parser.Deserialize<A>(serializedBytes);
-            var deserilized = Parser.Deserialize(serializedBytes, a.GetType());
-            //Dictionary
+
+            byte[] bytes = Parser.Serialize(loginRequestDto);
+
         }
     }
 
-    class A
+    class LoginRequestDto
     {
         [Tag(0)]
-        [NFirstItems(2)]
-        public int[] B { get; set; }
+        public int MessageType { get; set; }
         [Tag(1)]
-        [NFirstItems(3)]
-        public List<int> List { get; set; }
+        public long DeviceMessageNumber { get; set; }
+        [Tag(2)]
+        public DateTime Date { get; set; }
+        [Tag(3)]
+        public string DeviceMobileNumber { get; set; }
+        [Tag(30)]
+        public string Username { get; set; }
+        [Tag(31)]
+        public string Password { get; set; }
     }
 }
