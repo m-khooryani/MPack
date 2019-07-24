@@ -47,6 +47,18 @@ namespace MPack.Tests
         public Guid? SampleNullableGuid { get; set; }
     }
 
+    public class My2
+    {
+        [Tag(0)]
+        public SortedSet<int> Set { get; set; }
+    }
+
+    public class My3
+    {
+        [Tag(0)]
+        public Dictionary<int, string> Dictionary { get; set; }
+    }
+
     public enum Days
     { 
         Day1,
