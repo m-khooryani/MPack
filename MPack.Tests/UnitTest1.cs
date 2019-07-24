@@ -555,5 +555,18 @@ namespace MPack.Tests
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
+
+        [Fact]
+        public void Test35()
+        {
+            byte[] bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+            My myObject = new My()
+            {
+                SampleNullableGuid = new Guid(bytes),
+            };
+            var serializedBytes = Parser.Serialize(myObject);
+            var deserializedObject = Parser.Deserialize<My>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
+        }
     }
 }

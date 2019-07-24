@@ -338,6 +338,10 @@ namespace MPack
 
         private static Func<byte[], int, Type, Tuple<object, int>> FunctionProvider(Type propertyType)
         {
+            if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                return FunctionProvider(propertyType.GetGenericArguments()[0]);
+            }
             bool isSimple = IsSimple(propertyType);
             Func<byte[], int, Type, Tuple<object, int>> f = null;
             if (propertyType.Equals(typeof(string)))

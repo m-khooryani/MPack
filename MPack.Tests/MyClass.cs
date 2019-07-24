@@ -31,6 +31,8 @@ namespace MPack.Tests
         public Days SampleEnum { get; set; }
         [Tag(12)]
         public int? SampleNullableInt { get; set; }
+        [Tag(13)]
+        public Guid? SampleNullableGuid { get; set; }
         [Tag(102)]
         public MyClass2 SampleObject { get; set; }
         [Tag(103)]
@@ -42,7 +44,7 @@ namespace MPack.Tests
     public class My
     {
         [Tag(0)]
-        public int[] A { get; set; }
+        public Guid? SampleNullableGuid { get; set; }
     }
 
     public enum Days
