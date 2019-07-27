@@ -368,6 +368,10 @@ namespace MPack
             {
                 f = DeserializeArray;
             }
+            else if (propertyType.IsKeyValueCollection())
+            {
+
+            }
             else if (propertyType.IsNonStringEnumerable())
             {
                 f = DeserializeCollection;
@@ -1310,6 +1314,14 @@ namespace MPack
                 return false;
             return typeof(IEnumerable).IsAssignableFrom(type) ||
                 typeof(IEnumerable<>).IsAssignableFrom(type);
+        }
+
+        public static bool IsKeyValueCollection(this Type type)
+        {
+            if (type == null /*|| type == typeof(string)*/)
+                return false;
+            return typeof(IDictionary).IsAssignableFrom(type) ||
+                typeof(IDictionary<,>).IsAssignableFrom(type);
         }
     }
 
