@@ -581,15 +581,38 @@ namespace MPack.Tests
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
 
+        //[Fact]
+        //public void Test37()
+        //{
+        //    My3 myObject = new My3()
+        //    {
+        //        Dictionary = new Dictionary<int, string>() { { 1, "1" }, { 2, "2" } }
+        //    };
+        //    var serializedBytes = Parser.Serialize(myObject);
+        //    var deserializedObject = Parser.Deserialize<My3>(serializedBytes);
+        //    Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
+        //}
+
         [Fact]
-        public void Test37()
+        public void Test38()
         {
-            My3 myObject = new My3()
+            A myObject = new A()
             {
-                Dictionary = new Dictionary<int, string>() { { 1, "1" }, { 2, "2" } }
+                List = new List<B>()
+                {
+                    new C()
+                    {
+                        X = 20,
+                        //Password = "123456",
+                    },
+                    //new D()
+                    //{
+
+                    //},
+                },
             };
             var serializedBytes = Parser.Serialize(myObject);
-            var deserializedObject = Parser.Deserialize<My3>(serializedBytes);
+            var deserializedObject = Parser.Deserialize<A>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
     }

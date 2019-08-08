@@ -15,14 +15,14 @@ namespace MPack
         public static T Deserialize<T>(byte[] input) where T : new()
         {
             T t = new T();
-            T item1 = (T)DeserilizeObject(input, 0, t).Item1;
+            T item1 = (T)DeserilizeObject(input, 0, t, input.Length).Item1;
             return item1;
         }
 
         public static object Deserialize(byte[] serializedBytes, Type type)
         {
             object instance = Activator.CreateInstance(type);
-            var deserializedObject = DeserilizeObject(serializedBytes, 0, instance).Item1;
+            var deserializedObject = DeserilizeObject(serializedBytes, 0, instance, serializedBytes.Length).Item1;
             return deserializedObject;
         }
 
@@ -86,6 +86,91 @@ namespace MPack
             }
         }
 
+
+        public static byte[] GetBytes<T>(byte[] input, PropertyInfo propertyInfo, int iiiiiii)
+        {
+            var type = typeof(T);
+            CheckTypeValidation(type);
+            List<byte> bytess = new List<byte>();
+            int index = 0;
+            PropertyInfo[] propertyInfos = type.GetProperties();
+            var fgg = type.GetProperties().SelectMany(x => x.GetCustomAttributes(true).Where(y => y is TagAttribute));
+            Dictionary<PropertyInfo, TagAttribute> dictionary = new Dictionary<PropertyInfo, TagAttribute>();
+
+            foreach (var pi in propertyInfos)
+            {
+                object obj = pi.GetCustomAttributes(true).Where(x => x is TagAttribute).FirstOrDefault();
+                if (obj is TagAttribute myAttribute)
+                {
+                    dictionary.Add(pi, myAttribute);
+                }
+            }
+            for (int i = 0; i < propertyInfos.Length;)
+            {
+                if (index >= input.Length)
+                {
+                    break;
+                }
+                if (!dictionary.Any(x => x.Value.Tag == input[index]))
+                {
+                    index++;
+                    int length = GetLength(input, index);
+                    var bytes = input.Skip(index).Take(length).ToArray();
+                    index += length;
+                    int stringLength = (int)GetObjectFromByteArray2(bytes, typeof(int));
+                    index += stringLength;
+                    continue;
+                }
+                i++;
+                var pInfo = dictionary.Where(x => x.Value.Tag == input[index]).FirstOrDefault().Key;
+                bool deserialize = true;
+
+                foreach (var attribute in pInfo.GetCustomAttributes(true))
+                {
+                    if (attribute is IgnoreAttribute myAttribute)
+                    {
+                        deserialize = false;
+                    }
+                }
+                if (!deserialize)
+                {
+                    continue;
+                }
+                foreach (var attribute in pInfo.GetCustomAttributes(true))
+                {
+                    if (attribute is TagAttribute myAttribute)
+                    {
+                        bytess.Add(myAttribute.Tag);
+                        if (fgg.Any(x => (x as TagAttribute).Tag == input[index]))
+                        {
+                            index++;
+                            Func<byte[], int, Type, Tuple<object, List<int>>> deserilizer = FunctionProvider(pInfo.PropertyType);
+                            var sss = deserilizer(input, index, pInfo.PropertyType);
+                            if (propertyInfo == pInfo)
+                            {
+                                var bytesss = input.Skip(sss.Item2[iiiiiii] + 1).Take(sss.Item2[iiiiiii + 1] - (sss.Item2[iiiiiii] + 1)).ToArray();
+                                return bytesss;
+                            }
+                            if (sss.Item1 != null)
+                            {
+                                if (pInfo.PropertyType.IsGenericType && pInfo.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                                {
+                                    //pInfo.SetValue(t, sss.Item1, null);
+                                }
+                                else
+                                {
+                                    //pInfo.SetValue(t, System.Convert.ChangeType(sss.Item1, pInfo.PropertyType), null);
+                                }
+                            }
+                            index = sss.Item2.Last();
+                        }
+                    }
+                }
+            }
+            throw new NotImplementedException();
+        }
+
+
         private static byte[] Serialize2(object x, PropertyInfo propertyInfo = null)
         {
             var propertyType = x.GetType();
@@ -109,7 +194,7 @@ namespace MPack
             {
                 object kvpKey = propertyType.GetProperty("Key").GetValue(x, null);
                 object kvpValue = propertyType.GetProperty("Value").GetValue(x, null);
-                var keyByteArray = (kvpKey != null)? Serialize2(kvpKey) : new byte[0];
+                var keyByteArray = (kvpKey != null) ? Serialize2(kvpKey) : new byte[0];
                 var valueByteArray = (kvpValue != null) ? Serialize2(kvpValue) : new byte[0];
                 var keyLengthByteArray = GetByteArrayFromPrimitiveObject2(keyByteArray.Length, typeof(int));
                 var valueLengthByteArray = GetByteArrayFromPrimitiveObject2(valueByteArray.Length, typeof(int));
@@ -201,7 +286,89 @@ namespace MPack
             return Encoding.UTF8.GetBytes(v);
         }
 
-        private static Tuple<object, int> DeserilizeObject(byte[] input, int startIndex, object t)
+        public static byte[] GetBytes<T>(byte[] input, PropertyInfo propertyInfo)
+        {
+            var type = typeof(T);
+            CheckTypeValidation(type);
+            List<byte> bytess = new List<byte>();
+            int index = 0;
+            PropertyInfo[] propertyInfos = type.GetProperties();
+            var fgg = type.GetProperties().SelectMany(x => x.GetCustomAttributes(true).Where(y => y is TagAttribute));
+            Dictionary<PropertyInfo, TagAttribute> dictionary = new Dictionary<PropertyInfo, TagAttribute>();
+
+            foreach (var pi in propertyInfos)
+            {
+                object obj = pi.GetCustomAttributes(true).Where(x => x is TagAttribute).FirstOrDefault();
+                if (obj is TagAttribute myAttribute)
+                {
+                    dictionary.Add(pi, myAttribute);
+                }
+            }
+            for (int i = 0; i < propertyInfos.Length;)
+            {
+                if (index >= input.Length)
+                {
+                    break;
+                }
+                if (!dictionary.Any(x => x.Value.Tag == input[index]))
+                {
+                    index++;
+                    int length = GetLength(input, index);
+                    var bytes = input.Skip(index).Take(length).ToArray();
+                    index += length;
+                    int stringLength = (int)GetObjectFromByteArray2(bytes, typeof(int));
+                    index += stringLength;
+                    continue;
+                }
+                i++;
+                var pInfo = dictionary.Where(x => x.Value.Tag == input[index]).FirstOrDefault().Key;
+                bool deserialize = true;
+
+                foreach (var attribute in pInfo.GetCustomAttributes(true))
+                {
+                    if (attribute is IgnoreAttribute myAttribute)
+                    {
+                        deserialize = false;
+                    }
+                }
+                if (!deserialize)
+                {
+                    continue;
+                }
+                foreach (var attribute in pInfo.GetCustomAttributes(true))
+                {
+                    if (attribute is TagAttribute myAttribute)
+                    {
+                        bytess.Add(myAttribute.Tag);
+                        if (fgg.Any(x => (x as TagAttribute).Tag == input[index]))
+                        {
+                            index++;
+                            Func<byte[], int, Type, Tuple<object, List<int>>> deserilizer = FunctionProvider(pInfo.PropertyType);
+                            var sss = deserilizer(input, index, pInfo.PropertyType);
+                            if (propertyInfo == pInfo)
+                            {
+
+                            }
+                            if (sss.Item1 != null)
+                            {
+                                if (pInfo.PropertyType.IsGenericType && pInfo.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                                {
+                                    //pInfo.SetValue(t, sss.Item1, null);
+                                }
+                                else
+                                {
+                                    //pInfo.SetValue(t, System.Convert.ChangeType(sss.Item1, pInfo.PropertyType), null);
+                                }
+                            }
+                            index = sss.Item2.Last();
+                        }
+                    }
+                }
+            }
+            throw new NotImplementedException();
+        }
+
+        private static Tuple<object, List<int>> DeserilizeObject(byte[] input, int startIndex, object t, int LENGTH)
         {
             var type = t.GetType();
             CheckTypeValidation(type);
@@ -221,7 +388,7 @@ namespace MPack
             }
             for (int i = 0; i < propertyInfos.Length;)
             {
-                if (index >= input.Length)
+                if (index >= input.Length || (index - startIndex >= LENGTH))
                 {
                     break;
                 }
@@ -258,7 +425,7 @@ namespace MPack
                         if (fgg.Any(x => (x as TagAttribute).Tag == input[index]))
                         {
                             index++;
-                            Func<byte[], int, Type, Tuple<object, int>> deserilizer = FunctionProvider(propertyInfo.PropertyType);
+                            Func<byte[], int, Type, Tuple<object, List<int>>> deserilizer = FunctionProvider(propertyInfo.PropertyType);
                             var sss = deserilizer(input, index, propertyInfo.PropertyType);
                             if (sss.Item1 != null)
                             {
@@ -271,12 +438,12 @@ namespace MPack
                                     propertyInfo.SetValue(t, System.Convert.ChangeType(sss.Item1, propertyInfo.PropertyType), null);
                                 }
                             }
-                            index = sss.Item2;
+                            index = sss.Item2.Last();
                         }
                     }
                 }
             }
-            return new Tuple<object, int>(t, index);
+            return new Tuple<object, List<int>>(t, new List<int>() { index });
         }
 
         private static Type GetCollectionElementType(Type type)
@@ -309,41 +476,46 @@ namespace MPack
             return length;
         }
 
-        private static Tuple<object, int> ReadEnumerable(byte[] input, int arrayLength, int index, Type type, Type propertyType)
+        private static Tuple<object, List<int>> ReadEnumerable(byte[] input, int arrayLength, int index, Type type, Type propertyType)
         {
+            List<int> indices = new List<int>() { index };
             Func<object> _genericTemporaryCollectionCreator = CreateDefaultConstructor<object>(type);
             var list = (IList)CreateWrapper(_genericTemporaryCollectionCreator(), propertyType);
             for (int i = 0; i < arrayLength; i++)
             {
-                Func<byte[], int, Type, Tuple<object, int>> f = FunctionProvider(propertyType);
+                Func<byte[], int, Type, Tuple<object, List<int>>> f = FunctionProvider(propertyType);
                 var sss = f(input, index, propertyType);
                 list.Add(sss.Item1);
-                index = sss.Item2;
+                index = sss.Item2.Last();
+                indices.Add(index);
             }
-            return new Tuple<object, int>(list, index);
+            return new Tuple<object, List<int>>(list, indices);
         }
 
-        private static Tuple<object, int> ReadArray(byte[] input, int arrayLength, int index, Type propertyType)
+        private static Tuple<object, List<int>> ReadArray(byte[] input, int arrayLength, int index, Type propertyType)
         {
+            List<int> indices = new List<int>();
             var array = Array.CreateInstance(propertyType, arrayLength);
+            indices.Add(index);
             for (int i = 0; i < arrayLength; i++)
             {
-                Func<byte[], int, Type, Tuple<object, int>> f = FunctionProvider(propertyType);
+                Func<byte[], int, Type, Tuple<object, List<int>>> f = FunctionProvider(propertyType);
                 var sss = f(input, index, propertyType);
                 array.SetValue(sss.Item1, i);
-                index = sss.Item2;
+                index = sss.Item2.Last();
+                indices.Add(index);
             }
-            return new Tuple<object, int>(array, index);
+            return new Tuple<object, List<int>>(array, indices);
         }
 
-        private static Func<byte[], int, Type, Tuple<object, int>> FunctionProvider(Type propertyType)
+        private static Func<byte[], int, Type, Tuple<object, List<int>>> FunctionProvider(Type propertyType)
         {
             if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 return FunctionProvider(propertyType.GetGenericArguments()[0]);
             }
             bool isSimple = IsSimple(propertyType);
-            Func<byte[], int, Type, Tuple<object, int>> f = null;
+            Func<byte[], int, Type, Tuple<object, List<int>>> f = null;
             if (propertyType.Equals(typeof(string)))
             {
                 f = DeserializeString;
@@ -368,10 +540,6 @@ namespace MPack
             {
                 f = DeserializeArray;
             }
-            else if (propertyType.IsKeyValueCollection())
-            {
-
-            }
             else if (propertyType.IsNonStringEnumerable())
             {
                 f = DeserializeCollection;
@@ -383,13 +551,13 @@ namespace MPack
             return f;
         }
 
-        private static Tuple<object, int> DeserializeKeyValuePair(byte[] input, int index, Type propertyType)
+        private static Tuple<object, List<int>> DeserializeKeyValuePair(byte[] input, int index, Type propertyType)
         {
             int length = GetLength(input, index);
             var bytes = input.Skip(index).Take(length).ToArray();
             index += length;
             int arrayLength2 = (int)GetObjectFromByteArray2(bytes, typeof(int));
-            Tuple<object, int> kjhk = new Tuple<object, int>(null, index);
+            Tuple<object, List<int>> kjhk = new Tuple<object, List<int>>(null, new List<int>() { index });
             if (arrayLength2 > 0)
             {
                 length = GetLength(input, index);
@@ -410,44 +578,44 @@ namespace MPack
                 var val = arrayLength2 > 0 ? ff(input, index, valueType).Item1 : null;
                 var keyValuePair = Activator.CreateInstance(propertyType, new[] { key, val });
                 index += arrayLength2;
-                kjhk = new Tuple<object, int>(keyValuePair, index);
+                kjhk = new Tuple<object, List<int>>(keyValuePair, new List<int>() { index });
             }
             return kjhk;
         }
 
-        private static Tuple<object, int> DeserializeGuid(byte[] input, int index, Type propertyType)
+        private static Tuple<object, List<int>> DeserializeGuid(byte[] input, int index, Type propertyType)
         {
             int length = GetLength(input, index);
             var bytes = input.Skip(index).Take(length).ToArray();
             index += length;
             int arrayLength2 = (int)GetObjectFromByteArray2(bytes, typeof(int));
-            Tuple<object, int> kjhk = new Tuple<object, int>(null, index);
+            Tuple<object, List<int>> kjhk = new Tuple<object, List<int>>(null, new List<int>() { index });
             if (arrayLength2 > 0)
             {
                 bytes = input.Skip(index).Take(arrayLength2).ToArray();
                 index += arrayLength2;
-                kjhk = new Tuple<object, int>(new Guid(bytes), index);
+                kjhk = new Tuple<object, List<int>>(new Guid(bytes), new List<int>() { index });
             }
             return kjhk;
         }
 
-        private static Tuple<object, int> DeserializeEnum(byte[] input, int index, Type propertyType)
+        private static Tuple<object, List<int>> DeserializeEnum(byte[] input, int index, Type propertyType)
         {
             int length = GetLength(input, index);
             var bytes = input.Skip(index).Take(length).ToArray();
             index += length;
             int arrayLength2 = (int)GetObjectFromByteArray2(bytes, typeof(int));
-            Tuple<object, int> kjhk = new Tuple<object, int>(null, index);
+            Tuple<object, List<int>> kjhk = new Tuple<object, List<int>>(null, new List<int>() { index });
             if (arrayLength2 > 0)
             {
                 bytes = input.Skip(index).Take(arrayLength2).ToArray();
                 index += arrayLength2;
-                kjhk = new Tuple<object, int>(Enum.ToObject(propertyType, GetObjectFromByteArray(bytes, typeof(int))), index);
+                kjhk = new Tuple<object, List<int>>(Enum.ToObject(propertyType, GetObjectFromByteArray(bytes, typeof(int))), new List<int>() { index });
             }
             return kjhk;
         }
 
-        private static Tuple<object, int> DeserializeString(byte[] input, int index, Type propertyType)
+        private static Tuple<object, List<int>> DeserializeString(byte[] input, int index, Type propertyType)
         {
             int length = GetLength(input, index);
             var bytes = input.Skip(index).Take(length).ToArray();
@@ -467,65 +635,63 @@ namespace MPack
                 }
                 index += stringLength;
             }
-            return new Tuple<object, int>(s, index);
+            return new Tuple<object, List<int>>(s, new List<int>() { index });
         }
 
-        private static Tuple<object, int> GetObject(byte[] input, int index, Type propertyType)
+        private static Tuple<object, List<int>> GetObject(byte[] input, int index, Type propertyType)
         {
             int length = GetLength(input, index);
             var bytes = input.Skip(index).Take(length).ToArray();
             index += length;
             int objectLength = (int)GetObjectFromByteArray2(bytes, typeof(int));
-            Tuple<object, int> deserializedObject = new Tuple<object, int>(null, index);
+            Tuple<object, List<int>> deserializedObject = new Tuple<object, List<int>>(null, new List<int>() { index });
             if (objectLength > 0)
             {
                 var propertyTypeInstance = propertyType.Assembly.CreateInstance(propertyType.FullName);
-                deserializedObject = DeserilizeObject(input, index, propertyTypeInstance);
+                deserializedObject = DeserilizeObject(input, index, propertyTypeInstance, objectLength);
                 index += objectLength;
             }
-            return new Tuple<object, int>(deserializedObject.Item1, index);
+            return new Tuple<object, List<int>>(deserializedObject.Item1, new List<int>() { index });
         }
 
-        private static Tuple<object, int> DeserializeCollection(byte[] input, int index, Type propertyType)
+        private static Tuple<object, List<int>> DeserializeCollection(byte[] input, int index, Type propertyType)
         {
             int length = GetLength(input, index);
             var bytes = input.Skip(index).Take(length).ToArray();
             index += length;
             int arrayLength2 = (int)GetObjectFromByteArray2(bytes, typeof(int));
-            Tuple<object, int> kjkj = ReadEnumerable(input, arrayLength2, index, propertyType, GetCollectionElementType(propertyType));
+            Tuple<object, List<int>> kjkj = ReadEnumerable(input, arrayLength2, index, propertyType, GetCollectionElementType(propertyType));
             var list23 = kjkj.Item1;
             object underlyingList = list23 is IWrappedCollection wrappedCollection ? wrappedCollection.UnderlyingCollection : list23;
-            index = kjkj.Item2;
-            kjkj = new Tuple<object, int>(underlyingList, index);
+            kjkj = new Tuple<object, List<int>>(underlyingList, kjkj.Item2);
             return kjkj;
         }
 
-        private static Tuple<object, int> DeserializeArray(byte[] input, int index, Type propertyType)
+        private static Tuple<object, List<int>> DeserializeArray(byte[] input, int index, Type propertyType)
         {
             int length = GetLength(input, index);
             var bytes = input.Skip(index).Take(length).ToArray();
             index += length;
             int arrayLength2 = (int)GetObjectFromByteArray2(bytes, typeof(int));
-            Tuple<object, int> kjkj = ReadArray(input, arrayLength2, index, GetArrayElementType(propertyType));
+            Tuple<object, List<int>> kjkj = ReadArray(input, arrayLength2, index, GetArrayElementType(propertyType));
             var list23 = kjkj.Item1;
             object underlyingList = list23 is IWrappedCollection wrappedCollection ? wrappedCollection.UnderlyingCollection : list23;
-            index = kjkj.Item2;
-            kjkj = new Tuple<object, int>(underlyingList, index);
+            kjkj = new Tuple<object, List<int>>(underlyingList, kjkj.Item2);
             return kjkj;
         }
 
-        private static Tuple<object, int> DeserializePrimitiveObject(byte[] input, int index, Type propertyType)
+        private static Tuple<object, List<int>> DeserializePrimitiveObject(byte[] input, int index, Type propertyType)
         {
             int length = GetLength(input, index);
             var bytes = input.Skip(index).Take(length).ToArray();
             index += length;
             int arrayLength2 = (int)GetObjectFromByteArray2(bytes, typeof(int));
-            Tuple<object, int> kjhk = new Tuple<object, int>(null, index);
+            Tuple<object, List<int>> kjhk = new Tuple<object, List<int>>(null, new List<int>(index));
             if (arrayLength2 > 0)
             {
                 bytes = input.Skip(index).Take(arrayLength2).ToArray();
                 index += arrayLength2;
-                kjhk = new Tuple<object, int>(GetObjectFromByteArray(bytes, propertyType), index);
+                kjhk = new Tuple<object, List<int>>(GetObjectFromByteArray(bytes, propertyType), new List<int>() { index });
             }
             return kjhk;
         }
