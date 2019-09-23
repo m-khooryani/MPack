@@ -615,5 +615,84 @@ namespace MPack.Tests
             var deserializedObject = Parser.Deserialize<A>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
+
+        [Fact]
+        public void InheritanceTest()
+        {
+            Response response = new Response()
+            {
+                SubResponses = new List<ResponseBase>()
+                {
+                    new LoginResponse()
+                    {
+                        ErrorCode = 0,
+                        IsSuccessful = true,
+                        Toke = "dfnhkjsdvskdgnbsdbvksdghkbsgnjksdijgsdjkgnsjkbgkisjdghbsahbjsdbvfsdfsdkjvnkisdj3456789456789456789456789456789456789sdfyuhasdbgvusdvgyugsduvb1"
+                    },
+                    new GetUserProfileResponse()
+                    {
+                        CurrentCustomer = new CurrentUserInfo()
+                        {
+                            Username = "111111",
+                                title = "11111111111111111111111111",
+                        },
+                        Customers = new List<CustomerInfo>()
+                        {
+                            new CustomerInfo()
+                            {
+                                Title = "11111111111111111111111111",
+                            },
+                            new CustomerInfo()
+                            {
+                                Title = "11111111111111111111111111",
+                            },
+                            new CustomerInfo()
+                            {
+                                Title = "11111111111111111111111111",
+                            }
+                        }
+                    }
+                }
+            };
+            var bytes = Parser.Serialize(response);
+            var response2 = Parser.Deserialize<Response>(bytes);
+            var type = typeof(Response);
+            var bytes2 = Parser.GetBytes<Response>(bytes, type.GetProperty("SubResponses"), 1);
+            var dese = Parser.Deserialize<GetUserProfileResponse>(bytes2);
+            Assert.NotNull(dese.CurrentCustomer);
+            int a=4;
+        }
+
+        [Fact]
+        public void RequestInheritance()
+        {
+            Request request = new Request()
+            {
+                Date = DateTime.Now,
+                MessageNumber = 217,
+                MobileNumber = "9121234567",
+                SubRequests = new List<RequestBase>()
+                {
+                    new GetUserProfileRequest()
+                    {
+                        MessageType = 17,
+                        Username = "98888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888"
+                    },
+                    new LoginRequest()
+                    {
+                        MessageType = 1,
+                        Password = "123456",
+                        Username = "",
+                    },
+                },
+                Username = "legaltest1",
+            };
+            var bytes = Parser.Serialize(request);
+            var response2 = Parser.Deserialize<Request>(bytes);
+            var type = typeof(Request);
+            var bytes2 = Parser.GetBytes<Request>(bytes, type.GetProperty("SubRequests"), 0);
+            var dese = Parser.Deserialize<GetUserProfileRequest>(bytes2);
+            Assert.Equal(17, dese.MessageType);
+        }
     }
 }

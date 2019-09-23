@@ -148,7 +148,9 @@ namespace MPack
                             var sss = deserilizer(input, index, pInfo.PropertyType);
                             if (propertyInfo == pInfo)
                             {
-                                var bytesss = input.Skip(sss.Item2[iiiiiii] + 1).Take(sss.Item2[iiiiiii + 1] - (sss.Item2[iiiiiii] + 1)).ToArray();
+                                //iiiiiii++;
+                                int xcv = GetLength(input, sss.Item2[iiiiiii]) + sss.Item2[iiiiiii];
+                                var bytesss = input.Skip(xcv).Take(sss.Item2[iiiiiii + 1] - (xcv)).ToArray();
                                 return bytesss;
                             }
                             if (sss.Item1 != null)
@@ -228,8 +230,7 @@ namespace MPack
                 {
                     n = ((NFirstItemsAttribute)nItemsAttribute.First()).N;
                 }
-                byte[] byteArray = GetByteArrayFromPrimitiveObject2(Math.Min(array.Length, n), typeof(int));
-                bytes.AddRange(byteArray);
+                List<byte> tempList = new List<byte>();
                 int count = 0;
                 foreach (var item in array)
                 {
@@ -238,9 +239,13 @@ namespace MPack
                         break;
                     }
                     var bytesss = Serialize2(item);
-                    bytes.AddRange(bytesss);
+                    tempList.AddRange(bytesss);
                     count++;
                 }
+                byte[] byteArray = GetByteArrayFromPrimitiveObject2(count, typeof(int));
+                bytes.AddRange(GetByteArrayFromPrimitiveObject2(byteArray.Length + tempList.Count, typeof(int)));
+                bytes.AddRange(byteArray);
+                bytes.AddRange(tempList);
             }
             else if (propertyType.IsNonStringEnumerable())
             {
@@ -264,6 +269,7 @@ namespace MPack
                     count++;
                 }
                 byte[] byteArray = GetByteArrayFromPrimitiveObject2(count, typeof(int));
+                bytes.AddRange(GetByteArrayFromPrimitiveObject2(byteArray.Length + tempList.Count, typeof(int)));
                 bytes.AddRange(byteArray);
                 bytes.AddRange(tempList);
             }
@@ -372,10 +378,9 @@ namespace MPack
         {
             var type = t.GetType();
             CheckTypeValidation(type);
-            List<byte> bytess = new List<byte>();
             int index = startIndex;
             PropertyInfo[] propertyInfos = type.GetProperties();
-            var fgg = type.GetProperties().SelectMany(x => x.GetCustomAttributes(true).Where(y => y is TagAttribute));
+            var attributes = type.GetProperties().SelectMany(x => x.GetCustomAttributes(true).Where(y => y is TagAttribute));
             Dictionary<PropertyInfo, TagAttribute> dictionary = new Dictionary<PropertyInfo, TagAttribute>();
 
             foreach (var propertyInfo in propertyInfos)
@@ -421,8 +426,7 @@ namespace MPack
                 {
                     if (attribute is TagAttribute myAttribute)
                     {
-                        bytess.Add(myAttribute.Tag);
-                        if (fgg.Any(x => (x as TagAttribute).Tag == input[index]))
+                        if (attributes.Any(x => (x as TagAttribute).Tag == input[index]))
                         {
                             index++;
                             Func<byte[], int, Type, Tuple<object, List<int>>> deserilizer = FunctionProvider(propertyInfo.PropertyType);
@@ -435,7 +439,7 @@ namespace MPack
                                 }
                                 else
                                 {
-                                    propertyInfo.SetValue(t, System.Convert.ChangeType(sss.Item1, propertyInfo.PropertyType), null);
+                                    propertyInfo.SetValue(t, Convert.ChangeType(sss.Item1, propertyInfo.PropertyType), null);
                                 }
                             }
                             index = sss.Item2.Last();
@@ -660,6 +664,10 @@ namespace MPack
             var bytes = input.Skip(index).Take(length).ToArray();
             index += length;
             int arrayLength2 = (int)GetObjectFromByteArray2(bytes, typeof(int));
+            length = GetLength(input, index);
+            bytes = input.Skip(index).Take(length).ToArray();
+            index += length;
+            arrayLength2 = (int)GetObjectFromByteArray2(bytes, typeof(int));
             Tuple<object, List<int>> kjkj = ReadEnumerable(input, arrayLength2, index, propertyType, GetCollectionElementType(propertyType));
             var list23 = kjkj.Item1;
             object underlyingList = list23 is IWrappedCollection wrappedCollection ? wrappedCollection.UnderlyingCollection : list23;
@@ -673,6 +681,10 @@ namespace MPack
             var bytes = input.Skip(index).Take(length).ToArray();
             index += length;
             int arrayLength2 = (int)GetObjectFromByteArray2(bytes, typeof(int));
+            length = GetLength(input, index);
+            bytes = input.Skip(index).Take(length).ToArray();
+            index += length;
+            arrayLength2 = (int)GetObjectFromByteArray2(bytes, typeof(int));
             Tuple<object, List<int>> kjkj = ReadArray(input, arrayLength2, index, GetArrayElementType(propertyType));
             var list23 = kjkj.Item1;
             object underlyingList = list23 is IWrappedCollection wrappedCollection ? wrappedCollection.UnderlyingCollection : list23;
@@ -729,7 +741,9 @@ namespace MPack
             }
             else if (type.Equals(typeof(DateTime)))
             {
-                return new DateTime((long)GetObjectFromByteArray(bytes, typeof(long)));
+                long v = (long)GetObjectFromByteArray(bytes, typeof(long));
+                DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeMilliseconds(v).ToLocalTime();
+                return dateTimeOffset.DateTime;
             }
             throw new NotImplementedException();
         }
@@ -809,7 +823,9 @@ namespace MPack
             else if (type.Equals(typeof(DateTime)))
             {
                 DateTime date = (DateTime)x;
-                return GetByteArrayFromPrimitiveObject(date.Ticks, typeof(long));
+                DateTime foo = date.ToUniversalTime();
+                long unixTime = ((DateTimeOffset)foo).ToUnixTimeMilliseconds();
+                return GetByteArrayFromPrimitiveObject(unixTime, typeof(long));
             }
             else if (type.Equals(typeof(char)))
             {
@@ -841,10 +857,6 @@ namespace MPack
                 allBInaries.Add(builder.ToString().Substring(0, 7) + '1');
                 char v = builder.ToString()[7];
                 builder = builder.Clear().Append(v);
-            }
-            if (builder.Length % 8 == 7)
-            {
-                //builder.Append(1);
             }
             if (builder.Length % 8 == 0)
             {
@@ -908,10 +920,6 @@ namespace MPack
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    if (i == bytes.Length - 1 && j == 7)
-                    {
-                        //break;
-                    }
                     if (j != 7)
                     {
                         s += ((bytes[i] & (1 << (7 - j))) != 0 ? 1L : 0L) << b++;
@@ -933,10 +941,7 @@ namespace MPack
                     {
                         break;
                     }
-                    //if (j != 7 || i == bytes.Length - 1)
-                    {
-                        s += ((bytes[i] & (1 << (7 - j))) != 0 ? 1L : 0L) << b++;
-                    }
+                    s += ((bytes[i] & (1 << (7 - j))) != 0 ? 1L : 0L) << b++;
                 }
             }
             return s;

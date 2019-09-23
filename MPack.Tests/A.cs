@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MPack.Tests
 {
@@ -27,5 +28,36 @@ namespace MPack.Tests
     public class D : B
     {
 
+    }
+
+
+    public class RequestBase
+    {
+        [Tag(0)]
+        public int MessageType { get; set; }
+        [Tag(1)]
+        public string Username { get; set; }
+    }
+
+    public class Request
+    {
+        [Tag(0)]
+        public List<RequestBase> SubRequests { get; set; }
+        [Tag(1)]
+        public long MessageNumber { get; set; }
+        [Tag(2)]
+        public DateTime Date { get; set; }
+        [Tag(3)]
+        public string MobileNumber { get; set; }
+        [Tag(4)]
+        public string Username { get; set; }
+    }
+    public class LoginRequest : RequestBase
+    {
+        [Tag(31)]
+        public string Password { get; set; }
+    }
+    public class GetUserProfileRequest : RequestBase
+    {
     }
 }

@@ -14,7 +14,7 @@ namespace MPack.Tests
         [Tag(3)]
         public string SampleString { get; set; }
         [Tag(4)]
-        public DateTime SampleDate { get; set; }
+        public DateTime SampleDate { get; set; } = new DateTime(2000, 1, 1);
         [Tag(5)]
         public Guid SampleGuid { get; set; }
         [Tag(6)]
@@ -78,7 +78,7 @@ namespace MPack.Tests
         [Tag(3)]
         public string SampleString { get; set; }
         [Tag(4)]
-        public DateTime SampleDate { get; set; }
+        public DateTime SampleDate { get; set; } = new DateTime(2010, 1, 1);
         [Tag(5)]
         public Guid SampleGuid { get; set; }
         [Tag(6)]

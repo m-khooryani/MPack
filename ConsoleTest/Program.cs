@@ -1,6 +1,5 @@
 ﻿using MPack;
 using System;
-using System.Collections.Generic;
 
 namespace ConsoleTest
 {
@@ -8,35 +7,21 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-
-            LoginRequestDto loginRequestDto = new LoginRequestDto()
+            BaseModel a = new BaseModel()
             {
-                MessageType = 1,
-                DeviceMessageNumber = 1000,
-                Date = new DateTime(2002, 6, 30),
-                DeviceMobileNumber = "989191740647",
-                Username = "legalTest1",
-                Password = "123456",
+                //Arr = new int[] { 9894, 521, 25, 26262, 226 },
+                //Name = "Moj",
+                //X = 89565656,
+                //Y = 8989,
             };
+            var ss = Newtonsoft.Json.JsonConvert.SerializeObject(a);
 
-            byte[] bytes = Parser.Serialize(loginRequestDto);
+            byte[] bytes = Parser.Serialize(a);
 
         }
     }
 
-    class LoginRequestDto
+    internal class BaseModel
     {
-        [Tag(0)]
-        public int MessageType { get; set; }
-        [Tag(1)]
-        public long DeviceMessageNumber { get; set; }
-        [Tag(2)]
-        public DateTime Date { get; set; }
-        [Tag(3)]
-        public string DeviceMobileNumber { get; set; }
-        [Tag(30)]
-        public string Username { get; set; }
-        [Tag(31)]
-        public string Password { get; set; }
     }
 }
