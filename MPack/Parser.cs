@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Numerics;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -184,6 +185,16 @@ namespace MPack
                 byte[] byteArray = GetByteArrayFromPrimitiveObject2(array.Length, typeof(int));
                 bytes.AddRange(byteArray);
                 bytes.AddRange(array);
+            }
+            else if (propertyType.Equals(typeof(NumericString)))
+            {
+                var numericString = x as NumericString;
+                byte[] byteArray2 = GetByteArrayFromPrimitiveObject2(numericString.LeadingZeros, typeof(int));
+                byte[] byteArray = GetByteArrayFromPrimitiveObject(numericString.BigNumber, numericString.BigNumber.GetType());
+                byte[] byteArray3 = GetByteArrayFromPrimitiveObject2(byteArray2.Length + byteArray.Length, typeof(int));
+                bytes.AddRange(byteArray3);
+                bytes.AddRange(byteArray2);
+                bytes.AddRange(byteArray);
             }
             else if (propertyType.Equals(typeof(Guid)))
             {
@@ -524,6 +535,10 @@ namespace MPack
             {
                 f = DeserializeString;
             }
+            else if (propertyType.Equals(typeof(NumericString)))
+            {
+                f = DeserializeNumericString;
+            }
             else if (propertyType.Equals(typeof(Guid)))
             {
                 f = DeserializeGuid;
@@ -620,6 +635,29 @@ namespace MPack
         }
 
         private static Tuple<object, List<int>> DeserializeString(byte[] input, int index, Type propertyType)
+        {
+            int length = GetLength(input, index);
+            var bytes = input.Skip(index).Take(length).ToArray();
+            index += length;
+            int stringLength = (int)GetObjectFromByteArray2(bytes, typeof(int));
+            string s = null;
+            if (stringLength > 0)
+            {
+                bytes = input.Skip(index).Take(stringLength).ToArray();
+                if (bytes.Length == 1 && bytes[0] == 0)
+                {
+                    s = "";
+                }
+                else
+                {
+                    s = Encoding.UTF8.GetString(bytes);
+                }
+                index += stringLength;
+            }
+            return new Tuple<object, List<int>>(s, new List<int>() { index });
+        }
+
+        private static Tuple<object, List<int>> DeserializeNumericString(byte[] input, int index, Type propertyType)
         {
             int length = GetLength(input, index);
             var bytes = input.Skip(index).Take(length).ToArray();
@@ -792,6 +830,13 @@ namespace MPack
             if (type.Equals(typeof(string)))
             {
                 return Encoding.UTF8.GetBytes(x.ToString());
+            }
+            else if (type.Equals(typeof(BigInteger)))
+            {
+                BigInteger ns = (BigInteger)x;
+                var binary = ns.ToBinaryString();
+                var bytes = GetBytes(binary, 1);
+                return bytes;
             }
             else if (type.Equals(typeof(long)))
             {

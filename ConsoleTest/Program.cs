@@ -1,5 +1,6 @@
 ﻿using MPack;
 using System;
+using System.Numerics;
 
 namespace ConsoleTest
 {
@@ -7,21 +8,22 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            BaseModel a = new BaseModel()
+            var ss = new MyClasss()
             {
-                //Arr = new int[] { 9894, 521, 25, 26262, 226 },
-                //Name = "Moj",
-                //X = 89565656,
-                //Y = 8989,
+                //str = NumericString.Parse("62806280628062806280"),
+                str = ("62806280628062806280"),
             };
-            var ss = Newtonsoft.Json.JsonConvert.SerializeObject(a);
+            //var ss = Newtonsoft.Json.JsonConvert.SerializeObject(a);
 
-            byte[] bytes = Parser.Serialize(a);
-
+            byte[] bytes = Parser.Serialize(ss);
+            MyClasss sss = Parser.Deserialize<MyClasss>(bytes);
+            //BigInteger bigInteger = BigInteger.Parse()
         }
     }
 
-    internal class BaseModel
+    public class MyClasss
     {
+        [Tag(0)]
+        public string str { get; set; }
     }
 }
