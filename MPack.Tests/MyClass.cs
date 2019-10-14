@@ -81,6 +81,10 @@ namespace MPack.Tests
         public DateTime SampleDate { get; set; } = new DateTime(2010, 1, 1);
         [Tag(5)]
         public Guid SampleGuid { get; set; }
+        [Tag(50)]
+        public NumericString NStr { get; set; }
+        [Tag(51)]
+        public List<NumericString> NStrs { get; set; }
         [Tag(6)]
         public List<int> ListOfInt { get; set; }
         [Tag(7)]

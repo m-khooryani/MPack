@@ -581,20 +581,279 @@ namespace MPack.Tests
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
 
-        //[Fact]
-        //public void Test37()
-        //{
-        //    My3 myObject = new My3()
-        //    {
-        //        Dictionary = new Dictionary<int, string>() { { 1, "1" }, { 2, "2" } }
-        //    };
-        //    var serializedBytes = Parser.Serialize(myObject);
-        //    var deserializedObject = Parser.Deserialize<My3>(serializedBytes);
-        //    Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
-        //}
+        [Fact]
+        public void Test37()
+        {
+            byte[] bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+            MyClass2 myClass2 = new MyClass2()
+            {
+                ArrayOfInt = new int[] { 0, 0, 0, 1, 2, 99, 9994, 56, 45, 5478, -10, -1, -2, -8, -2048, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                ListOfInt = new List<int>() { 1, 1 },
+                SampleByte = 255,
+                SampleDate = new DateTime(2002, 6, 9),
+                SampleGuid = new Guid(bytes),
+                NStr = NumericString.Parse("0"),
+                SampleInt = int.MinValue,
+                SampleKVPArrayOfIntString = new KeyValuePair<int[], string>(new int[] { 6 }, "aaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbccccccccccccccccccccccccccccccccccccccccccccccccddddddddddddddddddddddddddddddddeeeehjbclabviabvbvkasjbv"),
+                SampleKVPIntString = new KeyValuePair<int, string>(23, "23"),
+                SampleKVPStringInt = new KeyValuePair<string, int>("6a4f6f4a4f5a65f", 37),
+                SampleNullableInt = 10000089,
+                SampleOfEnum = Days.Day2,
+                SampleString = "...@..",
+                SetOfInt = new HashSet<int>() { 9, 8, 7, 6, 5 },
+            };
+            MyClass myObject = new MyClass()
+            {
+                SampleObject = myClass2,
+                SampleComplexArray = new MyClass2[] { },
+                SampleComplexList = new List<MyClass2> { myClass2 }
+            };
+            var serializedBytes = Parser.Serialize(myObject);
+            var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
+        }
 
         [Fact]
         public void Test38()
+        {
+            byte[] bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+            MyClass2 myClass2 = new MyClass2()
+            {
+                ArrayOfInt = new int[] { 0, 0, 0, 1, 2, 99, 9994, 56, 45, 5478, -10, -1, -2, -8, -2048, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                ListOfInt = new List<int>() { 1, 1 },
+                SampleByte = 255,
+                SampleDate = new DateTime(2002, 6, 9),
+                SampleGuid = new Guid(bytes),
+                NStr = NumericString.Parse("0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
+                SampleInt = int.MinValue,
+                SampleKVPArrayOfIntString = new KeyValuePair<int[], string>(new int[] { 6 }, "aaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbccccccccccccccccccccccccccccccccccccccccccccccccddddddddddddddddddddddddddddddddeeeehjbclabviabvbvkasjbv"),
+                SampleKVPIntString = new KeyValuePair<int, string>(23, "23"),
+                SampleKVPStringInt = new KeyValuePair<string, int>("6a4f6f4a4f5a65f", 37),
+                SampleNullableInt = 10000089,
+                SampleOfEnum = Days.Day2,
+                SampleString = "...@..",
+                SetOfInt = new HashSet<int>() { 9, 8, 7, 6, 5 },
+            };
+            MyClass myObject = new MyClass()
+            {
+                SampleObject = myClass2,
+                SampleComplexArray = new MyClass2[] { },
+                SampleComplexList = new List<MyClass2> { myClass2 }
+            };
+            var serializedBytes = Parser.Serialize(myObject);
+            var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void Test39()
+        {
+            byte[] bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+            MyClass2 myClass2 = new MyClass2()
+            {
+                ArrayOfInt = new int[] { 0, 0, 0, 1, 2, 99, 9994, 56, 45, 5478, -10, -1, -2, -8, -2048, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                ListOfInt = new List<int>() { 1, 1 },
+                SampleByte = 255,
+                SampleDate = new DateTime(2002, 6, 9),
+                SampleGuid = new Guid(bytes),
+                NStr = NumericString.Parse("00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009952651651651456165156096440900000000000000000000006416516161688989484115161351165156166000000000000"),
+                SampleInt = int.MinValue,
+                SampleKVPArrayOfIntString = new KeyValuePair<int[], string>(new int[] { 6 }, "aaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbccccccccccccccccccccccccccccccccccccccccccccccccddddddddddddddddddddddddddddddddeeeehjbclabviabvbvkasjbv"),
+                SampleKVPIntString = new KeyValuePair<int, string>(23, "23"),
+                SampleKVPStringInt = new KeyValuePair<string, int>("6a4f6f4a4f5a65f", 37),
+                SampleNullableInt = 10000089,
+                SampleOfEnum = Days.Day2,
+                SampleString = "...@..",
+                SetOfInt = new HashSet<int>() { 9, 8, 7, 6, 5 },
+            };
+            MyClass myObject = new MyClass()
+            {
+                SampleObject = myClass2,
+                SampleComplexArray = new MyClass2[] { },
+                SampleComplexList = new List<MyClass2> { myClass2 }
+            };
+            var serializedBytes = Parser.Serialize(myObject);
+            var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void Test40()
+        {
+            byte[] bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+            MyClass2 myClass2 = new MyClass2()
+            {
+                ArrayOfInt = new int[] { 0, 0, 0, 1, 2, 99, 9994, 56, 45, 5478, -10, -1, -2, -8, -2048, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                ListOfInt = new List<int>() { 1, 1 },
+                SampleByte = 255,
+                SampleDate = new DateTime(2002, 6, 9),
+                SampleGuid = new Guid(bytes),
+                NStr = NumericString.Parse("1"),
+                SampleInt = int.MinValue,
+                SampleKVPArrayOfIntString = new KeyValuePair<int[], string>(new int[] { 6 }, "aaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbccccccccccccccccccccccccccccccccccccccccccccccccddddddddddddddddddddddddddddddddeeeehjbclabviabvbvkasjbv"),
+                SampleKVPIntString = new KeyValuePair<int, string>(23, "23"),
+                SampleKVPStringInt = new KeyValuePair<string, int>("6a4f6f4a4f5a65f", 37),
+                SampleNullableInt = 10000089,
+                SampleOfEnum = Days.Day2,
+                SampleString = "...@..",
+                SetOfInt = new HashSet<int>() { 9, 8, 7, 6, 5 },
+            };
+            MyClass myObject = new MyClass()
+            {
+                SampleObject = myClass2,
+                SampleComplexArray = new MyClass2[] { },
+                SampleComplexList = new List<MyClass2> { myClass2 }
+            };
+            var serializedBytes = Parser.Serialize(myObject);
+            var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void Test41()
+        {
+            byte[] bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+            MyClass2 myClass2 = new MyClass2()
+            {
+                ArrayOfInt = new int[] { 0, 0, 0, 1, 2, 99, 9994, 56, 45, 5478, -10, -1, -2, -8, -2048, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                ListOfInt = new List<int>() { 1, 1 },
+                SampleByte = 255,
+                SampleDate = new DateTime(2002, 6, 9),
+                SampleGuid = new Guid(bytes),
+                NStr = NumericString.Parse("01"),
+                SampleInt = int.MinValue,
+                SampleKVPArrayOfIntString = new KeyValuePair<int[], string>(new int[] { 6 }, "aaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbccccccccccccccccccccccccccccccccccccccccccccccccddddddddddddddddddddddddddddddddeeeehjbclabviabvbvkasjbv"),
+                SampleKVPIntString = new KeyValuePair<int, string>(23, "23"),
+                SampleKVPStringInt = new KeyValuePair<string, int>("6a4f6f4a4f5a65f", 37),
+                SampleNullableInt = 10000089,
+                SampleOfEnum = Days.Day2,
+                SampleString = "...@..",
+                SetOfInt = new HashSet<int>() { 9, 8, 7, 6, 5 },
+            };
+            MyClass myObject = new MyClass()
+            {
+                SampleObject = myClass2,
+                SampleComplexArray = new MyClass2[] { },
+                SampleComplexList = new List<MyClass2> { myClass2 }
+            };
+            var serializedBytes = Parser.Serialize(myObject);
+            var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void Test42()
+        {
+            byte[] bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+            MyClass2 myClass2 = new MyClass2()
+            {
+                ArrayOfInt = new int[] { 0, 0, 0, 1, 2, 99, 9994, 56, 45, 5478, -10, -1, -2, -8, -2048, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                ListOfInt = new List<int>() { 1, 1 },
+                SampleByte = 255,
+                SampleDate = new DateTime(2002, 6, 9),
+                SampleGuid = new Guid(bytes),
+                NStr = NumericString.Parse("01"),
+                NStrs = new List<NumericString>()
+                {
+                    NumericString.Parse("0"),
+                    NumericString.Parse("98196451651651981941999999999999999999999111122222222222225165165161561665651651655555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555571666516561561"),
+                    NumericString.Parse("01"),
+                    NumericString.Parse("0000"),
+                    NumericString.Parse("0000000000000000000000099"),
+                },
+                SampleInt = int.MinValue,
+                SampleKVPArrayOfIntString = new KeyValuePair<int[], string>(new int[] { 6 }, "aaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbccccccccccccccccccccccccccccccccccccccccccccccccddddddddddddddddddddddddddddddddeeeehjbclabviabvbvkasjbv"),
+                SampleKVPIntString = new KeyValuePair<int, string>(23, "23"),
+                SampleKVPStringInt = new KeyValuePair<string, int>("6a4f6f4a4f5a65f", 37),
+                SampleNullableInt = 10000089,
+                SampleOfEnum = Days.Day2,
+                SampleString = "...@..",
+                SetOfInt = new HashSet<int>() { 9, 8, 7, 6, 5 },
+            };
+            MyClass myObject = new MyClass()
+            {
+                SampleObject = myClass2,
+                SampleComplexArray = new MyClass2[] { },
+                SampleComplexList = new List<MyClass2> { myClass2 }
+            };
+            var serializedBytes = Parser.Serialize(myObject);
+            var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void Test43()
+        {
+            byte[] bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+            MyClass2 myClass2 = new MyClass2()
+            {
+                ArrayOfInt = new int[] { 0, 0, 0, 1, 2, 99, 9994, 56, 45, 5478, -10, -1, -2, -8, -2048, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                ListOfInt = new List<int>() { 1, 1 },
+                SampleByte = 255,
+                SampleDate = new DateTime(2002, 6, 9),
+                SampleGuid = new Guid(bytes),
+                NStr = NumericString.Parse("01"),
+                NStrs = new List<NumericString>()
+                {
+                },
+                SampleInt = int.MinValue,
+                SampleKVPArrayOfIntString = new KeyValuePair<int[], string>(new int[] { 6 }, "aaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbccccccccccccccccccccccccccccccccccccccccccccccccddddddddddddddddddddddddddddddddeeeehjbclabviabvbvkasjbv"),
+                SampleKVPIntString = new KeyValuePair<int, string>(23, "23"),
+                SampleKVPStringInt = new KeyValuePair<string, int>("6a4f6f4a4f5a65f", 37),
+                SampleNullableInt = 10000089,
+                SampleOfEnum = Days.Day2,
+                SampleString = "...@..",
+                SetOfInt = new HashSet<int>() { 9, 8, 7, 6, 5 },
+            };
+            MyClass myObject = new MyClass()
+            {
+                SampleObject = myClass2,
+                SampleComplexArray = new MyClass2[] { },
+                SampleComplexList = new List<MyClass2> { myClass2 }
+            };
+            var serializedBytes = Parser.Serialize(myObject);
+            var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void Test44()
+        {
+            byte[] bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+            MyClass2 myClass2 = new MyClass2()
+            {
+                ArrayOfInt = new int[] { 0, 0, 0, 1, 2, 99, 9994, 56, 45, 5478, -10, -1, -2, -8, -2048, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+                ListOfInt = new List<int>() { 1, 1 },
+                SampleByte = 255,
+                SampleDate = new DateTime(2002, 6, 9),
+                SampleGuid = new Guid(bytes),
+                NStr = NumericString.Parse("0198989898988988999898989898989898989865"),
+                NStrs = new List<NumericString>()
+                {
+                    NumericString.Parse("0"),
+                },
+                SampleInt = int.MinValue,
+                SampleKVPArrayOfIntString = new KeyValuePair<int[], string>(new int[] { 6 }, "aaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbccccccccccccccccccccccccccccccccccccccccccccccccddddddddddddddddddddddddddddddddeeeehjbclabviabvbvkasjbv"),
+                SampleKVPIntString = new KeyValuePair<int, string>(23, "23"),
+                SampleKVPStringInt = new KeyValuePair<string, int>("6a4f6f4a4f5a65f", 37),
+                SampleNullableInt = 10000089,
+                SampleOfEnum = Days.Day2,
+                SampleString = "...@..",
+                SetOfInt = new HashSet<int>() { 9, 8, 7, 6, 5 },
+            };
+            MyClass myObject = new MyClass()
+            {
+                SampleObject = myClass2,
+                SampleComplexArray = new MyClass2[] { },
+                SampleComplexList = new List<MyClass2> { myClass2 }
+            };
+            var serializedBytes = Parser.Serialize(myObject);
+            var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void Test380()
         {
             A myObject = new A()
             {

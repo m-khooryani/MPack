@@ -663,21 +663,20 @@ namespace MPack
             var bytes = input.Skip(index).Take(length).ToArray();
             index += length;
             int stringLength = (int)GetObjectFromByteArray2(bytes, typeof(int));
-            string s = null;
-            if (stringLength > 0)
+            length = GetLength(input, index);
+            bytes = input.Skip(index).Take(length).ToArray();
+            index += length;
+            int leadingZeros = (int)GetObjectFromByteArray2(bytes, typeof(int));
+            StringBuilder stringBuilder = new StringBuilder(new string('0', leadingZeros));
+            int numberOfBytes = stringLength - length;
+            if (numberOfBytes > 0)
             {
-                bytes = input.Skip(index).Take(stringLength).ToArray();
-                if (bytes.Length == 1 && bytes[0] == 0)
-                {
-                    s = "";
-                }
-                else
-                {
-                    s = Encoding.UTF8.GetString(bytes);
-                }
-                index += stringLength;
+                bytes = input.Skip(index).Take(numberOfBytes).ToArray();
+                BigInteger bigInteger = GetBigDecimalFromBytes(bytes);
+                index += numberOfBytes;
+                stringBuilder.Append(bigInteger.ToString());
             }
-            return new Tuple<object, List<int>>(s, new List<int>() { index });
+            return new Tuple<object, List<int>>(NumericString.Parse(stringBuilder.ToString()), new List<int>() { index });
         }
 
         private static Tuple<object, List<int>> GetObject(byte[] input, int index, Type propertyType)
@@ -987,6 +986,29 @@ namespace MPack
                         break;
                     }
                     s += ((bytes[i] & (1 << (7 - j))) != 0 ? 1L : 0L) << b++;
+                }
+            }
+            return s;
+        }
+
+        private static BigInteger GetBigDecimalFromBytes(byte[] bytes)
+        {
+            BigInteger s = 0;
+            int b = 0;
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    if (i == bytes.Length - 1 && j == 7)
+                    {
+                        break;
+                    }
+                    if((bytes[i] & (1 << (7 - j))) != 0)
+                    {
+                        s += BigInteger.Pow(2, b);
+                    }
+                    //s += ((bytes[i] & (1 << (7 - j))) != 0 ? 1L : 0L) << b++;
+                    b++;
                 }
             }
             return s;

@@ -10,8 +10,8 @@ namespace ConsoleTest
         {
             var ss = new MyClasss()
             {
-                //str = NumericString.Parse("62806280628062806280"),
-                str = ("62806280628062806280"),
+                str = NumericString.Parse("0000"),
+                //str = ("62806280628062806280"),
             };
             //var ss = Newtonsoft.Json.JsonConvert.SerializeObject(a);
 
@@ -24,6 +24,6 @@ namespace ConsoleTest
     public class MyClasss
     {
         [Tag(0)]
-        public string str { get; set; }
+        public NumericString str { get; set; }
     }
 }
