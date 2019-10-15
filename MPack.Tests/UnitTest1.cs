@@ -852,28 +852,28 @@ namespace MPack.Tests
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
 
-        [Fact]
-        public void Test380()
-        {
-            A myObject = new A()
-            {
-                List = new List<B>()
-                {
-                    new C()
-                    {
-                        X = 20,
-                        //Password = "123456",
-                    },
-                    //new D()
-                    //{
+        //[Fact]
+        //public void Test380()
+        //{
+        //    A myObject = new A()
+        //    {
+        //        List = new List<B>()
+        //        {
+        //            new C()
+        //            {
+        //                X = 20,
+        //                //Password = "123456",
+        //            },
+        //            //new D()
+        //            //{
 
-                    //},
-                },
-            };
-            var serializedBytes = Parser.Serialize(myObject);
-            var deserializedObject = Parser.Deserialize<A>(serializedBytes);
-            Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
-        }
+        //            //},
+        //        },
+        //    };
+        //    var serializedBytes = Parser.Serialize(myObject);
+        //    var deserializedObject = Parser.Deserialize<A>(serializedBytes);
+        //    Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
+        //}
 
         [Fact]
         public void InheritanceTest()
