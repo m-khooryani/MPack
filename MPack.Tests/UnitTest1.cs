@@ -779,6 +779,7 @@ namespace MPack.Tests
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
 
+        [Fact]
         public void NumericTest5()
         {
             TestClass testClass = new TestClass()
@@ -789,7 +790,6 @@ namespace MPack.Tests
             };
             var serializedBytes = Parser.Serialize(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
-            JsonConvert.DeserializeObject<TestClass>("{\"A\":4984,\"B\":null,\"C\":4445511}");
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
 

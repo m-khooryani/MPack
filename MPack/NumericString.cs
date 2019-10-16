@@ -29,6 +29,10 @@ namespace MPack
         private string _value;
         public static NumericString Parse(string s)
         {
+            if (s == null)
+            {
+                return null;
+            }
             int v = GetStrType(s);
             if (v > 2)
             {
