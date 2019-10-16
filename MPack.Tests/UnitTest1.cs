@@ -710,6 +710,300 @@ namespace MPack.Tests
         }
 
         [Fact]
+        public void NumericTest()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("1"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest1()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("1"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest2()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("111"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest3()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("10"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest4()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("100000000000000000000000000000000000000000000000"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest41()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("0"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest42()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("0000"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest43()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("01"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest44()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("084191911110000000000000000"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest45()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000084191911110000000000000000234523642342348235623582395237357823443243423163251423141236146231412342341231416165231"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest21()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("مجتبی kjs22666666666666666"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest22()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("مجتبی kjs000000000000000000000000000"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest23()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("مجتبی kjs000226666666666666668499844466156161655555555555555551111111111111111111111111111111111111111111111112121212121212"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest24()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("0AA1221122121"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest25()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("0AA1"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest26()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("0AA"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest27()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("نسترن ای عشق مندتسنریدsbgvdjhbadsbvhjabsvbukasbvdbhjvbjuhsdbfdwvbhjsdbvhjdbgubvjdsbjbdvbjzxbjhbJVBJBVjbjvbjbvDBSVBVHJbJBVBJBVJbjvbajhvbjubvckzbxvjbzxdvbkdhzvjuhzsbjkvbsdbvboabvdbvbjvbajbvsbjhvbdskvbadjsvbasbvjhasbvbasjbvjashbvjhasbvjhbvasjbvjajb46145616516515616515665161616161616146466646546515611616161651616165161616165161651616161616161616161616161656161651156594894910000000000000000000011565161616156156165161561615615665616165156561565616561611532318915616515644"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest28()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("a1a1a1a1a11111111111111111111111111111111111111111111111111111"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest11()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("abvdskbvsdvbkdbhvbksdbvbsvcsigvsd%^&*()@#$%^&*   sdvosdv kb  ifhsgdfigidfsydafgyiesdgfygfuigdfdsgufbsbdfsdfhfsjdhbfsjfabfbsldfbdfjbafjbsdhfjabsfbsdhfhzivhisvbwbebwebvvehbwakbbvhjebwghvdsbdvbbubvhjbjebufvewbvcbjebvfwebfhbefvjwevfuveufevfyuwevfjwevvfuvefhvweuvfuwevfhwevfuwevfhwvfuvwefvbiwevfwefb"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest12()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse(""),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void NumericTest13()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("   "),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.Serialize(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
         public void Test41()
         {
             byte[] bytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };

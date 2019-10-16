@@ -188,12 +188,52 @@ namespace MPack
             else if (propertyType.Equals(typeof(NumericString)))
             {
                 var numericString = x as NumericString;
-                byte[] byteArray2 = GetByteArrayFromPrimitiveObject2(numericString.LeadingZeros, typeof(int));
-                byte[] byteArray = GetByteArrayFromPrimitiveObject(numericString.BigNumber, numericString.BigNumber.GetType());
-                byte[] byteArray3 = GetByteArrayFromPrimitiveObject2(byteArray2.Length + byteArray.Length, typeof(int));
-                bytes.AddRange(byteArray3);
-                bytes.AddRange(byteArray2);
-                bytes.AddRange(byteArray);
+                //byte[] byteArray2 = GetByteArrayFromPrimitiveObject2(numericString.LeadingZeros, typeof(int));
+                //byte[] byteArray = GetByteArrayFromPrimitiveObject(numericString.BigNumber, numericString.BigNumber.GetType());
+                //byte[] byteArray3 = GetByteArrayFromPrimitiveObject2(byteArray2.Length + byteArray.Length, typeof(int));
+                //bytes.AddRange(byteArray3);
+                //bytes.AddRange(byteArray2);
+                //bytes.AddRange(byteArray);
+                int strType = numericString.GetStrType();
+                if (strType == 1)
+                {
+                    var array = GetByteArrayFromString(x.ToString());
+                    byte[] byteArray = GetByteArrayFromPrimitiveObject2(array.Length + 1, typeof(int));
+                    bytes.AddRange(byteArray);
+                    bytes.Add(1);
+                    bytes.AddRange(array);
+                }
+                else if (strType == 2)
+                {
+                    string prefix = numericString.Prefix;
+                    byte[] byteArray = GetByteArrayFromString(prefix);
+                    byte[] byteArray2 = GetByteArrayFromPrimitiveObject2(byteArray.Length, typeof(int));
+                    byte[] byteArray4 = GetByteArrayFromPrimitiveObject(numericString.BigNumber, numericString.BigNumber.GetType());
+                    byte[] byteArray3 = GetByteArrayFromPrimitiveObject2(byteArray2.Length + byteArray4.Length + byteArray.Length + 1, typeof(int));
+                    bytes.AddRange(byteArray3);
+                    bytes.Add(2);
+                    bytes.AddRange(byteArray2);
+                    bytes.AddRange(byteArray);
+                    bytes.AddRange(byteArray4);
+                }
+                else if (strType == 3)
+                {
+                    byte[] byteArray = GetByteArrayFromPrimitiveObject(numericString.BigNumber, numericString.BigNumber.GetType());
+                    byte[] byteArray3 = GetByteArrayFromPrimitiveObject2(byteArray.Length + 1, typeof(int));
+                    bytes.AddRange(byteArray3);
+                    bytes.Add(3);
+                    bytes.AddRange(byteArray);
+                }
+                else if (strType == 4)
+                {
+                    byte[] byteArray2 = GetByteArrayFromPrimitiveObject2(numericString.LeadingZeros, typeof(int));
+                    byte[] byteArray = GetByteArrayFromPrimitiveObject(numericString.BigNumber, numericString.BigNumber.GetType());
+                    byte[] byteArray3 = GetByteArrayFromPrimitiveObject2(byteArray2.Length + byteArray.Length + 1, typeof(int));
+                    bytes.AddRange(byteArray3);
+                    bytes.Add(4);
+                    bytes.AddRange(byteArray2);
+                    bytes.AddRange(byteArray);
+                }
             }
             else if (propertyType.Equals(typeof(Guid)))
             {
@@ -291,6 +331,24 @@ namespace MPack
                 bytes.AddRange(byteArray);
             }
             return bytes.ToArray();
+        }
+
+        private static int GetNumericStringIndex(string value)
+        {
+            int index = 0;
+            for (int i = value.Length - 1; i >= 0; i--)
+            {
+                if (!char.IsDigit(value[i]))
+                {
+                    index = i + 1;
+                    break;
+                }
+            }
+            while (value[index] == '0')
+            {
+                index++;
+            }
+            return index;
         }
 
         private static byte[] GetByteArrayFromString(string v)
@@ -663,18 +721,80 @@ namespace MPack
             index += length;
             int stringLength = (int)GetObjectFromByteArray2(bytes, typeof(int));
             length = GetLength(input, index);
-            bytes = input.Skip(index).Take(length).ToArray();
-            index += length;
-            int leadingZeros = (int)GetObjectFromByteArray2(bytes, typeof(int));
-            StringBuilder stringBuilder = new StringBuilder(new string('0', leadingZeros));
-            int numberOfBytes = stringLength - length;
-            if (numberOfBytes > 0)
+            int strType = input[index];
+            StringBuilder stringBuilder = new StringBuilder();
+            if (strType == 1)
             {
-                bytes = input.Skip(index).Take(numberOfBytes).ToArray();
+                bytes = input.Skip(index + 1).Take(stringLength - 1).ToArray();
+                if (bytes.Length == 1 && bytes[0] == 0)
+                {
+                    stringBuilder.Append("");
+                }
+                else
+                {
+                    stringBuilder.Append(Encoding.UTF8.GetString(bytes));
+                }
+                index += stringLength;
+            }
+            else if (strType == 2)
+            {
+                index++;
+                length = GetLength(input, index);
+                bytes = input.Skip(index).Take(length).ToArray();
+                int prefixLength = (int)GetObjectFromByteArray2(bytes, typeof(int));
+                index += length;
+                bytes = input.Skip(index).Take(prefixLength).ToArray();
+                if (bytes.Length == 1 && bytes[0] == 0)
+                {
+                    stringBuilder.Append("");
+                }
+                else
+                {
+                    stringBuilder.Append(Encoding.UTF8.GetString(bytes));
+                }
+                index += prefixLength;
+                int bigNumberLength = stringLength - (prefixLength + 1 + length);
+                bytes = input.Skip(index).Take(bigNumberLength).ToArray();
+                index += bigNumberLength;
                 BigInteger bigInteger = GetBigDecimalFromBytes(bytes);
-                index += numberOfBytes;
                 stringBuilder.Append(bigInteger.ToString());
             }
+            else if (strType == 3)
+            {
+                bytes = input.Skip(index + 1).Take(stringLength - 1).ToArray();
+                BigInteger bigInteger = GetBigDecimalFromBytes(bytes);
+                stringBuilder.Append(bigInteger.ToString());
+                index += stringLength;
+            }
+            else if (strType == 4)
+            {
+                index++;
+                length = GetLength(input, index);
+                bytes = input.Skip(index).Take(length).ToArray();
+                int leadingZeros = (int)GetObjectFromByteArray2(bytes, typeof(int));
+                stringBuilder.Append(new string('0', leadingZeros));
+                index += length;
+                int numberOfBytes = stringLength - (length + 1);
+                if (numberOfBytes > 0)
+                {
+                    bytes = input.Skip(index).Take(numberOfBytes).ToArray();
+                    BigInteger bigInteger = GetBigDecimalFromBytes(bytes);
+                    index += numberOfBytes;
+                    stringBuilder.Append(bigInteger.ToString());
+                }
+            }
+            ////index++;
+            //index += length;
+            //int leadingZeros = (int)GetObjectFromByteArray2(bytes, typeof(int));
+            ////StringBuilder stringBuilder = new StringBuilder(new string('0', leadingZeros));
+            //int numberOfBytes = stringLength - length;
+            //if (numberOfBytes > 0)
+            //{
+            //    bytes = input.Skip(index).Take(numberOfBytes).ToArray();
+            //    BigInteger bigInteger = GetBigDecimalFromBytes(bytes);
+            //    index += numberOfBytes;
+            //    stringBuilder.Append(bigInteger.ToString());
+            //}
             return new Tuple<object, List<int>>(NumericString.Parse(stringBuilder.ToString()), new List<int>() { index });
         }
 
