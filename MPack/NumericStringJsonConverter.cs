@@ -26,7 +26,11 @@ namespace MPack
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            string s = reader.Value.ToString();
+            string s = reader?.Value?.ToString() ?? "";
+            if (string.IsNullOrWhiteSpace(s))
+            {
+                return null;
+            }
             return NumericString.Parse(s);
         }
 
