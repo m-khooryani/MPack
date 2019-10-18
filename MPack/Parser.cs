@@ -333,24 +333,6 @@ namespace MPack
             return bytes.ToArray();
         }
 
-        private static int GetNumericStringIndex(string value)
-        {
-            int index = 0;
-            for (int i = value.Length - 1; i >= 0; i--)
-            {
-                if (!char.IsDigit(value[i]))
-                {
-                    index = i + 1;
-                    break;
-                }
-            }
-            while (value[index] == '0')
-            {
-                index++;
-            }
-            return index;
-        }
-
         private static byte[] GetByteArrayFromString(string v)
         {
             if (string.IsNullOrEmpty(v))
@@ -783,18 +765,6 @@ namespace MPack
                     stringBuilder.Append(bigInteger.ToString());
                 }
             }
-            ////index++;
-            //index += length;
-            //int leadingZeros = (int)GetObjectFromByteArray2(bytes, typeof(int));
-            ////StringBuilder stringBuilder = new StringBuilder(new string('0', leadingZeros));
-            //int numberOfBytes = stringLength - length;
-            //if (numberOfBytes > 0)
-            //{
-            //    bytes = input.Skip(index).Take(numberOfBytes).ToArray();
-            //    BigInteger bigInteger = GetBigDecimalFromBytes(bytes);
-            //    index += numberOfBytes;
-            //    stringBuilder.Append(bigInteger.ToString());
-            //}
             return new Tuple<object, List<int>>(NumericString.Parse(stringBuilder.ToString()), new List<int>() { index });
         }
 
