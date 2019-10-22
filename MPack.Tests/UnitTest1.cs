@@ -16,7 +16,7 @@ namespace MPack.Tests
             {
                 SampleInt = 890,
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -28,7 +28,7 @@ namespace MPack.Tests
             {
                 SampleInt = 0,
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -40,7 +40,7 @@ namespace MPack.Tests
             {
                 SampleInt = -999,
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -52,7 +52,7 @@ namespace MPack.Tests
             {
                 SampleByte = 120,
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -64,7 +64,7 @@ namespace MPack.Tests
             {
                 ArrayOfInt = new int[] { }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -76,7 +76,7 @@ namespace MPack.Tests
             {
                 ArrayOfInt = new int[] { 0 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -88,7 +88,7 @@ namespace MPack.Tests
             {
                 ArrayOfInt = new int[] { 9 , 456 , -56 , -1 , 98521245, -2 , -989898 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -102,7 +102,7 @@ namespace MPack.Tests
                 SampleByte = 56,
                 SampleInt = 65
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -114,7 +114,7 @@ namespace MPack.Tests
             {
                 SampleString = "رشته فارسی",
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -126,7 +126,7 @@ namespace MPack.Tests
             {
                 SampleString = null,
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -138,7 +138,7 @@ namespace MPack.Tests
             {
                 SampleString = "wertyuiop[hyunmjiko,lbvsdkvbakbdvbvjbajsdbjsbdvjsbvjbsjbhvjbhsvalKSCklAVMnv JKBvhbhbJHVBjkvm sovsds4v64v4sv4 6 4e64few4 6ew4f we4f we532786 386823#$%^&*(#$%^&*(vhsdih ifh ishfihefiuh  hewfhwiehf  fihfhufaweha  f"
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -150,7 +150,7 @@ namespace MPack.Tests
             {
                 SampleDate = new DateTime(2019, 7, 22),
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -162,7 +162,7 @@ namespace MPack.Tests
             {
                 SampleDate = new DateTime(2019, 7, 22, 11, 4, 55),
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -175,7 +175,7 @@ namespace MPack.Tests
             {
                 SampleGuid = new Guid(bytes),
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -187,7 +187,7 @@ namespace MPack.Tests
             {
                 SampleListInt = new List<int>() { }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -199,7 +199,7 @@ namespace MPack.Tests
             {
                 SampleListInt = new List<int>() { 0, -1000, 2000, -3000, 999999, 9000, 9001, 9002, 9003, 9004, 9005, 9006, 9007, 9008, 9009, 9010, -9010 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -211,7 +211,7 @@ namespace MPack.Tests
             {
                 SampleListInt = new List<int>() { 1 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -230,7 +230,7 @@ namespace MPack.Tests
                 SampleInt = int.MaxValue,
                 SampleString = "hhh@ggi.com",
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -242,7 +242,7 @@ namespace MPack.Tests
             {
                 SampleIntSet = new HashSet<int>() { 1, 2, 3 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -254,7 +254,7 @@ namespace MPack.Tests
             {
                 SampleKVPIntString = new KeyValuePair<int, string>(9898, "9812hsudhvs56444$%^&*("),
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -266,7 +266,7 @@ namespace MPack.Tests
             {
                 SampleKVPIntString = new KeyValuePair<int, string>(0, ""),
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -278,7 +278,7 @@ namespace MPack.Tests
             {
                 SampleKVPStringInt = new KeyValuePair<string, int>("kj456asc46sa4c6s4c^&V78gv8a", 865142),
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.True(myObject.IsDeepEqual(deserializedObject));
         }
@@ -290,7 +290,7 @@ namespace MPack.Tests
             {
                 SampleKVPArrayIntString = new KeyValuePair<int[], string>(new int[] { 1 }, "abc")
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -302,7 +302,7 @@ namespace MPack.Tests
             {
                 SampleKVPArrayIntString = new KeyValuePair<int[], string>(new int[] { 45, 0, 0, 0, 3, -1, -1, -1023, 1023, 999888777, }, "Manchester United")
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -314,7 +314,7 @@ namespace MPack.Tests
             {
                 SampleKVPArrayIntString = new KeyValuePair<int[], string>(new int[] { }, "")
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -342,7 +342,7 @@ namespace MPack.Tests
                     SetOfInt = new HashSet<int>() { 9, 8, 7, 6, 5 },
                 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -372,7 +372,7 @@ namespace MPack.Tests
                 SampleObject = myClass2,
                 SampleComplexArray = new MyClass2[] {myClass2 , myClass2, myClass2},
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -384,7 +384,7 @@ namespace MPack.Tests
             {
                 SampleEnum = Days.Day3,
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -396,7 +396,7 @@ namespace MPack.Tests
             {
                 SampleNullableInt = 8988,
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -427,7 +427,7 @@ namespace MPack.Tests
                 SampleComplexArray = new MyClass2[] { myClass2, myClass2, myClass2 },
                 SampleComplexList = new List<MyClass2> { myClass2 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -458,7 +458,7 @@ namespace MPack.Tests
                 SampleComplexArray = new MyClass2[] { myClass2 },
                 SampleComplexList = new List<MyClass2> { myClass2, myClass2, myClass2 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -489,7 +489,7 @@ namespace MPack.Tests
                 SampleComplexArray = new MyClass2[] { myClass2, myClass2, myClass2 },
                 SampleComplexList = new List<MyClass2> { myClass2, myClass2, myClass2 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -520,7 +520,7 @@ namespace MPack.Tests
                 SampleComplexArray = new MyClass2[] { myClass2 },
                 SampleComplexList = new List<MyClass2> { myClass2 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -551,7 +551,7 @@ namespace MPack.Tests
                 SampleComplexArray = new MyClass2[] { },
                 SampleComplexList = new List<MyClass2> { myClass2 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -564,7 +564,7 @@ namespace MPack.Tests
             {
                 SampleNullableGuid = new Guid(bytes),
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<My>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -576,7 +576,7 @@ namespace MPack.Tests
             {
                 Set = new SortedSet<int>() { 1, 2, 3 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<My2>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -608,7 +608,7 @@ namespace MPack.Tests
                 SampleComplexArray = new MyClass2[] { },
                 SampleComplexList = new List<MyClass2> { myClass2 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -640,7 +640,7 @@ namespace MPack.Tests
                 SampleComplexArray = new MyClass2[] { },
                 SampleComplexList = new List<MyClass2> { myClass2 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -672,7 +672,7 @@ namespace MPack.Tests
                 SampleComplexArray = new MyClass2[] { },
                 SampleComplexList = new List<MyClass2> { myClass2 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -704,7 +704,7 @@ namespace MPack.Tests
                 SampleComplexArray = new MyClass2[] { },
                 SampleComplexList = new List<MyClass2> { myClass2 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -718,7 +718,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("1"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -732,7 +732,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("1"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -746,7 +746,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("111"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -760,7 +760,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("10"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -774,7 +774,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("100000000000000000000000000000000000000000000000"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -788,7 +788,7 @@ namespace MPack.Tests
                 B = NumericString.Parse(null),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -802,7 +802,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("0"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -816,7 +816,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("0000"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -830,7 +830,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("01"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -844,7 +844,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("084191911110000000000000000"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -858,7 +858,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000084191911110000000000000000234523642342348235623582395237357823443243423163251423141236146231412342341231416165231"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -872,7 +872,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("مجتبی kjs22666666666666666"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -886,7 +886,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("مجتبی kjs000000000000000000000000000"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -900,7 +900,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("مجتبی kjs000226666666666666668499844466156161655555555555555551111111111111111111111111111111111111111111111112121212121212"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -914,7 +914,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("0AA1221122121"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -928,7 +928,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("0AA1"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -942,7 +942,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("0AA"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -956,7 +956,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("نسترن ای عشق مندتسنریدsbgvdjhbadsbvhjabsvbukasbvdbhjvbjuhsdbfdwvbhjsdbvhjdbgubvjdsbjbdvbjzxbjhbJVBJBVjbjvbjbvDBSVBVHJbJBVBJBVJbjvbajhvbjubvckzbxvjbzxdvbkdhzvjuhzsbjkvbsdbvboabvdbvbjvbajbvsbjhvbdskvbadjsvbasbvjhasbvbasjbvjashbvjhasbvjhbvasjbvjajb46145616516515616515665161616161616146466646546515611616161651616165161616165161651616161616161616161616161656161651156594894910000000000000000000011565161616156156165161561615615665616165156561565616561611532318915616515644"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -970,7 +970,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("a1a1a1a1a11111111111111111111111111111111111111111111111111111"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -984,7 +984,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("abvdskbvsdvbkdbhvbksdbvbsvcsigvsd%^&*()@#$%^&*   sdvosdv kb  ifhsgdfigidfsydafgyiesdgfygfuigdfdsgufbsbdfsdfhfsjdhbfsjfabfbsldfbdfjbafjbsdhfjabsfbsdhfhzivhisvbwbebwebvvehbwakbbvhjebwghvdsbdvbbubvhjbjebufvewbvcbjebvfwebfhbefvjwevfuveufevfyuwevfjwevvfuvefhvweuvfuwevfhwevfuwevfhwvfuvwefvbiwevfwefb"),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -998,7 +998,7 @@ namespace MPack.Tests
                 B = NumericString.Parse(""),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -1012,7 +1012,7 @@ namespace MPack.Tests
                 B = NumericString.Parse("   "),
                 C = 4445511,
             };
-            var serializedBytes = Parser.Serialize(testClass);
+            var serializedBytes = Parser.SerializeObject(testClass);
             var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -1044,7 +1044,7 @@ namespace MPack.Tests
                 SampleComplexArray = new MyClass2[] { },
                 SampleComplexList = new List<MyClass2> { myClass2 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -1084,7 +1084,7 @@ namespace MPack.Tests
                 SampleComplexArray = new MyClass2[] { },
                 SampleComplexList = new List<MyClass2> { myClass2 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -1119,7 +1119,7 @@ namespace MPack.Tests
                 SampleComplexArray = new MyClass2[] { },
                 SampleComplexList = new List<MyClass2> { myClass2 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
@@ -1155,8 +1155,53 @@ namespace MPack.Tests
                 SampleComplexArray = new MyClass2[] { },
                 SampleComplexList = new List<MyClass2> { myClass2 }
             };
-            var serializedBytes = Parser.Serialize(myObject);
+            var serializedBytes = Parser.SerializeObject(myObject);
             var deserializedObject = Parser.Deserialize<MyClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void Test45()
+        {
+            TestClass2 myObject = new TestClass2()
+            {
+                A = 2,
+                A1 = "464",
+                B = "01020304050607A1A2FF00",
+                C = 56,
+            };
+            var serializedBytes = Parser.SerializeObject(myObject);
+            var deserializedObject = Parser.Deserialize<TestClass2>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void Test46()
+        {
+            TestClass2 myObject = new TestClass2()
+            {
+                A = 2,
+                A1 = "464",
+                B = "",
+                C = 56,
+            };
+            var serializedBytes = Parser.SerializeObject(myObject);
+            var deserializedObject = Parser.Deserialize<TestClass2>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
+        public void Test47()
+        {
+            TestClass2 myObject = new TestClass2()
+            {
+                A = 2,
+                A1 = "464",
+                B = "010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6010099FF14A6",
+                C = 56,
+            };
+            var serializedBytes = Parser.SerializeObject(myObject);
+            var deserializedObject = Parser.Deserialize<TestClass2>(serializedBytes);
             Assert.Equal(JsonConvert.SerializeObject(myObject), JsonConvert.SerializeObject(deserializedObject));
         }
 
@@ -1221,7 +1266,7 @@ namespace MPack.Tests
                     }
                 }
             };
-            var bytes = Parser.Serialize(response);
+            var bytes = Parser.SerializeObject(response);
             var response2 = Parser.Deserialize<Response>(bytes);
             var type = typeof(Response);
             var bytes2 = Parser.GetBytes<Response>(bytes, type.GetProperty("SubResponses"), 1);
@@ -1254,7 +1299,7 @@ namespace MPack.Tests
                 },
                 Username = "legaltest1",
             };
-            var bytes = Parser.Serialize(request);
+            var bytes = Parser.SerializeObject(request);
             var response2 = Parser.Deserialize<Request>(bytes);
             var type = typeof(Request);
             var bytes2 = Parser.GetBytes<Request>(bytes, type.GetProperty("SubRequests"), 0);

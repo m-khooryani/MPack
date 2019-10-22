@@ -26,7 +26,7 @@ namespace MPack
             return deserializedObject;
         }
 
-        public static byte[] Serialize(object objjj)
+        public static byte[] SerializeObject(object objjj)
         {
             var type = objjj.GetType();
             CheckTypeValidation(type);
@@ -57,7 +57,7 @@ namespace MPack
                                 continue;
                             }
                             bytes.Add(tag);
-                            var bytessss = Serialize2(x, propertyInfo);
+                            var bytessss = SerializeProperty(x, propertyInfo);
                             bytes.AddRange(bytessss);
                         }
                     }
@@ -173,14 +173,14 @@ namespace MPack
         }
 
 
-        private static byte[] Serialize2(object x, PropertyInfo propertyInfo = null)
+        private static byte[] SerializeProperty(object x, PropertyInfo propertyInfo = null)
         {
             var propertyType = x.GetType();
             bool isSimple = IsSimple(propertyType);
             List<byte> bytes = new List<byte>();
             if (propertyType.Equals(typeof(string)))
             {
-                var array = GetByteArrayFromString(x.ToString());
+                var array = GetByteArrayFromString(x.ToString(), propertyInfo);
                 byte[] byteArray = GetByteArrayFromPrimitiveObject2(array.Length, typeof(int));
                 bytes.AddRange(byteArray);
                 bytes.AddRange(array);
@@ -188,12 +188,6 @@ namespace MPack
             else if (propertyType.Equals(typeof(NumericString)))
             {
                 var numericString = x as NumericString;
-                //byte[] byteArray2 = GetByteArrayFromPrimitiveObject2(numericString.LeadingZeros, typeof(int));
-                //byte[] byteArray = GetByteArrayFromPrimitiveObject(numericString.BigNumber, numericString.BigNumber.GetType());
-                //byte[] byteArray3 = GetByteArrayFromPrimitiveObject2(byteArray2.Length + byteArray.Length, typeof(int));
-                //bytes.AddRange(byteArray3);
-                //bytes.AddRange(byteArray2);
-                //bytes.AddRange(byteArray);
                 int strType = numericString.GetStrType();
                 if (strType == 1)
                 {
@@ -246,8 +240,8 @@ namespace MPack
             {
                 object kvpKey = propertyType.GetProperty("Key").GetValue(x, null);
                 object kvpValue = propertyType.GetProperty("Value").GetValue(x, null);
-                var keyByteArray = (kvpKey != null) ? Serialize2(kvpKey) : new byte[0];
-                var valueByteArray = (kvpValue != null) ? Serialize2(kvpValue) : new byte[0];
+                var keyByteArray = (kvpKey != null) ? SerializeProperty(kvpKey) : new byte[0];
+                var valueByteArray = (kvpValue != null) ? SerializeProperty(kvpValue) : new byte[0];
                 var keyLengthByteArray = GetByteArrayFromPrimitiveObject2(keyByteArray.Length, typeof(int));
                 var valueLengthByteArray = GetByteArrayFromPrimitiveObject2(valueByteArray.Length, typeof(int));
                 byte[] byteArray2 = GetByteArrayFromPrimitiveObject2(keyByteArray.Length + valueByteArray.Length + keyLengthByteArray.Length + valueLengthByteArray.Length, typeof(int));
@@ -288,7 +282,7 @@ namespace MPack
                     {
                         break;
                     }
-                    var bytesss = Serialize2(item);
+                    var bytesss = SerializeProperty(item);
                     tempList.AddRange(bytesss);
                     count++;
                 }
@@ -314,7 +308,7 @@ namespace MPack
                     {
                         break;
                     }
-                    var bytesss = Serialize2(item);
+                    var bytesss = SerializeProperty(item);
                     tempList.AddRange(bytesss);
                     count++;
                 }
@@ -325,7 +319,7 @@ namespace MPack
             }
             else
             {
-                byte[] byteArray = Serialize(x);
+                byte[] byteArray = SerializeObject(x);
                 byte[] byteArray2 = GetByteArrayFromPrimitiveObject2(byteArray.Length, typeof(int));
                 bytes.AddRange(byteArray2);
                 bytes.AddRange(byteArray);
@@ -333,8 +327,21 @@ namespace MPack
             return bytes.ToArray();
         }
 
-        private static byte[] GetByteArrayFromString(string v)
+        private static byte[] GetByteArrayFromString(string v, PropertyInfo propertyInfo = null)
         {
+            if (propertyInfo != null)
+            {
+                if (propertyInfo.GetCustomAttribute<HexAttribute>() != null)
+                {
+                    var hex = v;
+                    byte[] bytes = new byte[hex.Length >> 1];
+                    for (int i = 0; i < hex.Length; i += 2)
+                    {
+                        bytes[i >> 1] = Convert.ToByte(hex.Substring(i, 2), 16);
+                    }
+                    return bytes;
+                }
+            }
             if (string.IsNullOrEmpty(v))
             {
                 return new byte[] { 0 };
@@ -479,7 +486,7 @@ namespace MPack
                         if (attributes.Any(x => (x as TagAttribute).Tag == input[index]))
                         {
                             index++;
-                            Func<byte[], int, Type, Tuple<object, List<int>>> deserilizer = FunctionProvider(propertyInfo.PropertyType);
+                            Func<byte[], int, Type, Tuple<object, List<int>>> deserilizer = FunctionProvider(propertyInfo.PropertyType, propertyInfo);
                             var sss = deserilizer(input, index, propertyInfo.PropertyType);
                             if (sss.Item1 != null)
                             {
@@ -562,7 +569,7 @@ namespace MPack
             return new Tuple<object, List<int>>(array, indices);
         }
 
-        private static Func<byte[], int, Type, Tuple<object, List<int>>> FunctionProvider(Type propertyType)
+        private static Func<byte[], int, Type, Tuple<object, List<int>>> FunctionProvider(Type propertyType, PropertyInfo propertyInfo = null)
         {
             if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
@@ -570,7 +577,11 @@ namespace MPack
             }
             bool isSimple = IsSimple(propertyType);
             Func<byte[], int, Type, Tuple<object, List<int>>> f = null;
-            if (propertyType.Equals(typeof(string)))
+            if (propertyType.Equals(typeof(string)) && propertyInfo?.GetCustomAttribute<HexAttribute>() != null)
+            {
+                f = DeserializeHexString;
+            }
+            else if (propertyType.Equals(typeof(string)))
             {
                 f = DeserializeString;
             }
@@ -691,6 +702,25 @@ namespace MPack
                 {
                     s = Encoding.UTF8.GetString(bytes);
                 }
+                index += stringLength;
+            }
+            return new Tuple<object, List<int>>(s, new List<int>() { index });
+        }
+
+        private static Tuple<object, List<int>> DeserializeHexString(byte[] input, int index, Type propertyType)
+        {
+            int length = GetLength(input, index);
+            var bytes = input.Skip(index).Take(length).ToArray();
+            index += length;
+            int stringLength = (int)GetObjectFromByteArray2(bytes, typeof(int));
+            string s = "";
+            if (stringLength > 0)
+            {
+                bytes = input.Skip(index).Take(stringLength).ToArray();
+                string[] convertedToHexArray = bytes
+                    .Select(x => x.ToString("X2"))
+                    .ToArray();
+                s = string.Join("", convertedToHexArray);
                 index += stringLength;
             }
             return new Tuple<object, List<int>>(s, new List<int>() { index });

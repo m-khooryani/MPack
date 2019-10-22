@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTest", "ConsoleTest\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MPack.Tests", "MPack.Tests\MPack.Tests.csproj", "{2E259223-0439-4FF9-9FFD-BA2CBC83FA74}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeepEqual", "..\..\DeepEqual\src\DeepEqual\DeepEqual.csproj", "{5EACC3C7-AFE7-4024-B3C9-4D9FE5124F05}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{2E259223-0439-4FF9-9FFD-BA2CBC83FA74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E259223-0439-4FF9-9FFD-BA2CBC83FA74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E259223-0439-4FF9-9FFD-BA2CBC83FA74}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5EACC3C7-AFE7-4024-B3C9-4D9FE5124F05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5EACC3C7-AFE7-4024-B3C9-4D9FE5124F05}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5EACC3C7-AFE7-4024-B3C9-4D9FE5124F05}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5EACC3C7-AFE7-4024-B3C9-4D9FE5124F05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
