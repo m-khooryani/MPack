@@ -33,6 +33,10 @@ namespace MPack
             PropertyInfo[] propertyInfos = type.GetProperties();
 
             List<byte> bytes = new List<byte>();
+            if (NotAllowdToSerialize(objjj))
+            {
+                return bytes.ToArray();
+            }
             foreach (var propertyInfo in propertyInfos)
             {
                 bool isSimple = IsSimple(propertyInfo.PropertyType);
@@ -42,6 +46,14 @@ namespace MPack
                     if (attribute is IgnoreAttribute myAttribute)
                     {
                         serialize = false;
+                    }
+                    else if( attribute is ExactMatchAttribute exactMatch && exactMatch.IgnoreLevel == IgnoreLevel.Property)
+                    {
+                        string value = propertyInfo.GetValue(objjj, null)?.ToString();
+                        if (!exactMatch.Matches.Any(x => x == value))
+                        {
+                            serialize = false;
+                        }
                     }
                 }
                 if (serialize)
@@ -282,6 +294,10 @@ namespace MPack
                     {
                         break;
                     }
+                    if (NotAllowdToSerialize(item))
+                    {
+                        continue;
+                    }
                     var bytesss = SerializeProperty(item);
                     tempList.AddRange(bytesss);
                     count++;
@@ -308,6 +324,10 @@ namespace MPack
                     {
                         break;
                     }
+                    if (NotAllowdToSerialize(item))
+                    {
+                        continue;
+                    }
                     var bytesss = SerializeProperty(item);
                     tempList.AddRange(bytesss);
                     count++;
@@ -325,6 +345,33 @@ namespace MPack
                 bytes.AddRange(byteArray);
             }
             return bytes.ToArray();
+        }
+
+        private static bool NotAllowdToSerialize(object obj)
+        {
+            if (obj == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            PropertyInfo[] propertyInfo1 = obj.GetType().GetProperties().ToArray();
+            if(propertyInfo1 == null || propertyInfo1.Length == 0)
+            {
+                return false;
+            }
+            foreach (var propertyInfo in propertyInfo1)
+            {
+                ExactMatchAttribute exactMatchAttribute = propertyInfo.GetCustomAttribute<ExactMatchAttribute>();
+                if (exactMatchAttribute != null && exactMatchAttribute.IgnoreLevel == IgnoreLevel.Object)
+                {
+                    string value = propertyInfo.GetValue(obj, null)?.ToString();
+                    if (!exactMatchAttribute.Matches.Any(x => x == value))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private static byte[] GetByteArrayFromString(string v, PropertyInfo propertyInfo = null)
