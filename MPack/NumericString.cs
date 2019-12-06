@@ -83,7 +83,7 @@ namespace MPack
 
         static int GetNumericStringIndex(string value)
         {
-            if(!char.IsDigit(value[value.Length - 1]))
+            if(!IsDigit(value[value.Length - 1]))
             {
                 return -1;
             }
@@ -91,7 +91,7 @@ namespace MPack
             bool ok = false;
             for (int i = value.Length - 1; i >= 0; i--)
             {
-                if (!char.IsDigit(value[i]))
+                if (!IsDigit(value[i]))
                 {
                     index = i + 1;
                     break;
@@ -118,13 +118,18 @@ namespace MPack
             return GetStrType(value);
         }
 
+        private static bool IsDigit(char ch)
+        {
+            return '0' <= ch && ch <= '9';
+        }
+
         private static int GetStrType(string value)
         {
             if (string.IsNullOrEmpty(value))
             {
                 return 1;
             }
-            if (value.All(ch => char.IsNumber(ch)))
+            if (value.All(ch => IsDigit(ch)))
             {
                 if (value.StartsWith("0"))
                 {

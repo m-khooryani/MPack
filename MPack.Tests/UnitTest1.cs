@@ -780,6 +780,20 @@ namespace MPack.Tests
         }
 
         [Fact]
+        public void NumericTest48()
+        {
+            TestClass testClass = new TestClass()
+            {
+                A = 4984,
+                B = NumericString.Parse("۱۲۳۴۵۶"),
+                C = 4445511,
+            };
+            var serializedBytes = Parser.SerializeObject(testClass);
+            var deserializedObject = Parser.Deserialize<TestClass>(serializedBytes);
+            Assert.Equal(JsonConvert.SerializeObject(testClass), JsonConvert.SerializeObject(deserializedObject));
+        }
+
+        [Fact]
         public void NumericTest5()
         {
             TestClass testClass = new TestClass()
